@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -57,10 +57,6 @@
   .btn-sm{padding:8px 13px;font-size:13px;border-radius:10px}
   .btn-block{width:100%}
 
-  .hint{font-size:12.5px;color:var(--muted);text-align:center;margin-top:16px;line-height:1.6}
-  .hint a{color:var(--primary);font-weight:700;text-decoration:none}
-  .hint a:hover{text-decoration:underline}
-
   .site-header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.82);
     backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
   .header-inner{max-width:1080px;margin:0 auto;padding:13px 24px;
@@ -107,6 +103,7 @@
   .badge.pending{background:#fef3c7;color:#b45309}
   .badge.approved{background:#d1fae5;color:#047857}
   .badge.rejected{background:#fee2e2;color:#b91c1c}
+  .badge.creator{background:#fef08a;color:#854d0e;border:1px solid #fde047}
 
   .icon-btn{border:none;background:#f1f2f9;color:#6b7280;width:28px;height:28px;border-radius:9px;
     cursor:pointer;font-size:13px;line-height:1;transition:.2s}
@@ -230,6 +227,7 @@ let state = {
   ideas: [], 
   gdz: [], 
   admins: [], 
+  participants: {},
   settings: {}, 
   me: null, 
   view: 'ideas', 
@@ -271,6 +269,7 @@ async function fetchData() {
     state.ideas = db.ideas || [];
     state.gdz = db.gdz || [];
     state.admins = db.admins || [];
+    state.participants = db.participants || {};
     state.settings = db.settings || {};
     state.me = db.currentAdmin ? state.admins.find(a => a.login === db.currentAdmin) : null;
     render();
@@ -306,15 +305,20 @@ function renderDashboard(){
   
   navItems.push(['ideas','💡 Идеи']);
   if(p.canGdz) navItems.push(['gdz','🧠 Нейро-ГДЗ']);
-  if(p.canUsers) navItems.push(['admins','👥 Администраторы']);
+  if(p.canUsers) {
+    navItems.push(['admins','👥 Администраторы']);
+    navItems.push(['participants','👤 Участники']);
+  }
   navItems.push(['access','🔐 Доступ']);
 
   if(state.view === 'gdz' && !p.canGdz) state.view = 'ideas';
   if(state.view === 'admins' && !p.canUsers) state.view = 'ideas';
+  if(state.view === 'participants' && !p.canUsers) state.view = 'ideas';
 
   let content = '';
   if(state.view === 'gdz')        content = viewGdz();
   else if(state.view === 'admins')content = viewAdmins();
+  else if(state.view === 'participants')content = viewParticipants();
   else if(state.view === 'access')content = viewAccess();
   else                            content = viewIdeas();
 
@@ -376,6 +380,9 @@ function statsIdeas(){
 
 function ideaCard(idea){
   const st = STATUS[idea.status] || STATUS.pending;
+  const isCreator = state.participants[idea.author]?.role === 'creator';
+  const creatorBadge = isCreator ? ' <span class="badge creator" style="font-size:9px;padding:2px 6px">Создатель</span>' : '';
+  
   return '<div class="idea" data-id="' + esc(idea.id) + '">' +
     '<div class="idea-head">' +
       '<div class="idea-title">' + esc(titleOf(idea)) + '</div>' +
@@ -385,7 +392,7 @@ function ideaCard(idea){
       '</div>' +
     '</div>' +
     '<div class="idea-text">' + esc(idea.text) + '</div>' +
-    '<div class="idea-meta"><span>👤 ' + esc(idea.author || 'Аноним') + '</span><span>🕒 ' + fmtDate(idea.createdAt) + '</span></div>' +
+    '<div class="idea-meta"><span>👤 ' + esc(idea.author) + creatorBadge + '</span><span>🕒 ' + fmtDate(idea.createdAt) + '</span></div>' +
     (idea.comment ? '<div class="comment"><b>Комментарий:</b> ' + esc(idea.comment) + '</div>' : '') +
     '<div class="admin-controls">' +
       '<select data-role="status">' +
@@ -433,6 +440,9 @@ function statsGdz(){
 
 function gdzCard(r, canEdit){
   const answered = r.status === 'answered';
+  const isCreator = state.participants[r.author]?.role === 'creator';
+  const creatorBadge = isCreator ? ' <span class="badge creator" style="font-size:9px;padding:2px 6px">Создатель</span>' : '';
+  
   return '<div class="idea" data-id="' + esc(r.id) + '">' +
     '<div class="idea-head">' +
       '<div class="idea-title">' + esc(shortQ(r.question)) + '</div>' +
@@ -443,8 +453,8 @@ function gdzCard(r, canEdit){
     '</div>' +
     '<div class="idea-text">' + esc(r.question) + '</div>' +
     (r.image ? '<button class="photo-btn" data-action="zoom" data-id="' + esc(r.id) + '"><img src="' + r.image + '" alt="фото"></button>' : '') +
-    '<div class="idea-meta"><span>👤 ' + esc(r.author || 'Аноним') + '</span><span>🕒 ' + fmtDate(r.createdAt) + '</span></div>' +
-    '<div class="comment"><b>Ответ нейросети (предварительный):</b>\n' + esc(r.botAnswer || '—') + '</div>' +
+    '<div class="idea-meta"><span>👤 ' + esc(r.author) + creatorBadge + '</span><span>🕒 ' + fmtDate(r.createdAt) + '</span></div>' +
+    '<div class="comment"><b>Ответ нейросети:</b>\n' + esc(r.botAnswer || '—') + '</div>' +
     (r.adminAnswer ? '<div class="comment" style="border-left-color:#10b981"><b style="color:#047857">Текущий ответ ученику:</b>\n' + esc(r.adminAnswer) + '</div>' : '') +
     (canEdit ? 
       '<div class="admin-controls">' +
@@ -456,6 +466,34 @@ function gdzCard(r, canEdit){
         '<button class="btn btn-primary btn-sm" data-action="save-gdz" data-id="' + esc(r.id) + '">Сохранить</button>' +
       '</div>' : '<div class="muted-note">У вас нет прав на редактирование ответов.</div>'
     ) +
+  '</div>';
+}
+
+function viewParticipants(){
+  const names = Object.keys(state.participants).sort();
+  
+  if(names.length === 0){
+    return '<div class="card">' + emptyHtml('Пока нет участников', 'Как только кто-то напишет идею или задание, он появится здесь.') + '</div>';
+  }
+
+  return '<div class="card">' +
+    '<h2 class="h2">👤 Участники <span class="count">' + names.length + '</span></h2>' +
+    '<p class="sub">Здесь отображаются все, кто оставлял идеи или вопросы. Вы можете выдать роль «Создатель».</p>' +
+    names.map(name => {
+      const p = state.participants[name];
+      const isCreator = p.role === 'creator';
+      const initial = name.charAt(0).toUpperCase();
+      return '<div class="user-row">' +
+        '<div class="avatar">' + esc(initial) + '</div>' +
+        '<div style="flex:1;min-width:0">' +
+          '<div style="font-weight:800;font-size:14px">' + esc(name) + '</div>' +
+          '<div class="user-meta">' + (isCreator ? 'Создатель' : 'Ученик') + '</div>' +
+        '</div>' +
+        (isCreator 
+          ? '<button class="btn btn-ghost btn-sm" data-action="set-role" data-name="' + esc(name) + '" data-role="student">Забрать роль</button>'
+          : '<button class="btn btn-primary btn-sm" data-action="set-role" data-name="' + esc(name) + '" data-role="creator" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;border:none">Выдать Создателя</button>') +
+      '</div>';
+    }).join('') +
   '</div>';
 }
 
@@ -562,7 +600,7 @@ function viewAccess(){
       switchRow('s-gdz', 'Раздел «Нейро-ГДЗ»', 'Ученики могут отправлять задания боту', s.gdzEnabled !== false) +
       switchRow('s-photo', 'Загрузка фото в ГДЗ-боте', 'Разрешить прикреплять фото задания', s.photoEnabled !== false) +
       switchRow('s-list', 'Показывать ленту всех идей', 'Если выключить — ученик видит только форму', s.showIdeasList !== false) +
-      switchRow('s-require', 'Обязательное имя', 'Без имени нельзя отправить идею или задание', s.requireName === true) +
+      switchRow('s-require', 'Обязательное имя', 'Без имени нельзя отправить идею или задание', s.requireName !== false) +
       '<div class="grid-2" style="margin-top:18px">' +
         '<div class="field"><label for="s-maxtext">Максимальная длина текста</label><input id="s-maxtext" type="number" min="100" max="5000" value="' + (Number(s.maxText) || 1200) + '"></div>' +
         '<div class="field"><label for="s-bottitle">Название бота</label><input id="s-bottitle" maxlength="40" value="' + esc(s.botTitle || 'Нейро-ГДЗ') + '"></div>' +
@@ -602,6 +640,12 @@ document.addEventListener('click', function(e){
   }
 
   if(action === 'refresh'){ fetchData(); toast('Обновлено'); return; }
+
+  if(action === 'set-role'){
+    apiAction({ action: 'set_role', name: t.dataset.name, role: t.dataset.role });
+    toast('Роль обновлена');
+    return;
+  }
 
   if(action === 'save-idea'){
     const card = t.closest('.idea');
