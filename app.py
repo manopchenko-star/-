@@ -1,4 +1,4 @@
-﻿import os
+import os
 import json
 import uuid
 import urllib3
@@ -26,9 +26,10 @@ def load_db():
             ],
             "ideas": [],
             "gdz": [],
+            "participants": {},
             "settings": {
                 "ideasEnabled": True, "gdzEnabled": True, "photoEnabled": True,
-                "showIdeasList": True, "requireName": False, "maxText": 1200,
+                "showIdeasList": True, "requireName": True, "maxText": 1200,
                 "botTitle": "Нейро-ГДЗ", "notice": ""
             }
         }
@@ -38,14 +39,20 @@ def load_db():
         with open(DB_FILE, 'r', encoding='utf-8') as f:
             db = json.load(f)
             if "settings" not in db:
-                db["settings"] = {"ideasEnabled": True, "gdzEnabled": True, "photoEnabled": True, "showIdeasList": True, "requireName": False, "maxText": 1200, "botTitle": "Нейро-ГДЗ", "notice": ""}
+                db["settings"] = {"ideasEnabled": True, "gdzEnabled": True, "photoEnabled": True, "showIdeasList": True, "requireName": True, "maxText": 1200, "botTitle": "Нейро-ГДЗ", "notice": ""}
+            if "participants" not in db:
+                db["participants"] = {}
             return db
     except:
-        return {"admins": [], "ideas": [], "gdz": [], "settings": {}}
+        return {"admins": [], "ideas": [], "gdz": [], "participants": {}, "settings": {}}
 
 def save_db(data):
     with open(DB_FILE, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+
+def add_participant(db, author):
+    if author and author != "Аноним" and author not in db["participants"]:
+        db["participants"][author] = {"role": "student"}
 
 def ask_gigachat(question):
     if not SBER_AUTH_KEY:
@@ -99,6 +106,7 @@ def get_state():
         "ideas": db["ideas"],
         "gdz": db["gdz"],
         "admins": [{"login": a["login"], "name": a.get("name", ""), "perms": a.get("perms")} for a in db["admins"]],
+        "participants": db.get("participants", {}),
         "currentAdmin": current_admin,
         "settings": db.get("settings", {})
     })
@@ -107,10 +115,12 @@ def get_state():
 def add_idea():
     data = request.json
     db = load_db()
+    author = data.get("author", "Аноним")
+    add_participant(db, author)
     db["ideas"].insert(0, {
         "id": str(uuid.uuid4()),
         "text": data.get("text"),
-        "author": data.get("author", "Аноним"),
+        "author": author,
         "status": "pending",
         "comment": "",
         "createdAt": int(time.time() * 1000)
@@ -123,12 +133,14 @@ def add_gdz():
     data = request.json
     db = load_db()
     question = data.get("question")
+    author = data.get("author", "Аноним")
+    add_participant(db, author)
     bot_answer = ask_gigachat(question)
     
     rec = {
         "id": str(uuid.uuid4()),
         "question": question,
-        "author": data.get("author", "Аноним"),
+        "author": author,
         "botAnswer": bot_answer,
         "adminAnswer": "",
         "status": "new",
@@ -195,6 +207,12 @@ def admin_action():
                 break
     elif action == "save_settings":
         db["settings"] = data["settings"]
+    elif action == "set_role":
+        name = data.get("name")
+        if name:
+            if name not in db["participants"]:
+                db["participants"][name] = {}
+            db["participants"][name]["role"] = data.get("role")
                 
     save_db(db)
     return jsonify({"status": "ok"})
