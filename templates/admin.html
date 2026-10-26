@@ -18,7 +18,7 @@
   input:not([type="checkbox"]), textarea, select {width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:inherit;outline:none}
   .btn{border:none;border-radius:12px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
   .btn-primary{background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff}
-  .btn-danger{background:#fee2e2;color:#b91c1c} .btn-ghost{background:#eef0f8;color:var(--text)}
+  .btn-ghost{background:#eef0f8;color:var(--text)}
   .btn-sm{padding:8px 13px;font-size:13px;border-radius:10px} .btn-block{width:100%}
   .site-header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
   .header-inner{max-width:1080px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
@@ -27,23 +27,19 @@
   .user-chip{display:flex;align-items:center;gap:9px;background:#fef3c7;border:1px solid #fde68a;padding:6px 14px 6px 6px;border-radius:999px;font-size:13px;font-weight:800;color:#92400e}
   .avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12.5px}
   .page{max-width:1080px;margin:0 auto;padding:22px 24px 70px}
-  .nav{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px}
-  .nav button{border:1px solid var(--border);background:#fff;padding:10px 17px;border-radius:12px;font-weight:700;font-size:14px;color:var(--muted);cursor:pointer;font-family:inherit}
-  .nav button.active{background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border-color:transparent}
-  .nav button.refresh{margin-left:auto;color:#4338ca;background:#eef2ff;border-color:#dbe1ff}
   .h2{font-size:17px;font-weight:800;display:flex;align-items:center;gap:9px;margin-bottom:6px}
   .sub{font-size:13.5px;color:var(--muted);margin-bottom:20px}
-  .card-inner{background:#fff;border:1px solid var(--border);border-radius:15px;padding:17px 19px;margin-bottom:13px;}
-  .user-row{display:flex;align-items:center;gap:13px;padding:13px 15px;border-radius:13px;border:1px solid var(--border);margin-bottom:10px;background:#fff}
-  .user-row .avatar{width:36px;height:36px;font-size:14px}
-  .user-meta{font-size:12px;color:var(--muted);margin-top:3px;font-weight:600}
-  .grid-3{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:14px}
-  .switch-row{display:flex;align-items:center;gap:16px;padding:14px 16px;border:1px solid var(--border);border-radius:14px;margin-bottom:10px;cursor:pointer;background:#fff}
-  .switch{position:relative;width:46px;height:26px;flex:none;} .switch input{opacity:0;width:0;height:0;position:absolute}
-  .switch .sl{position:absolute;inset:0;background:#dfe3ef;border-radius:999px;transition:.25s;cursor:pointer}
-  .switch .sl::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.25s;}
-  .switch input:checked + .sl{background:linear-gradient(135deg,#6366f1,#4f46e5)} .switch input:checked + .sl::after{transform:translateX(20px)}
-  #toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(140%);background:#1e1b2e;color:#fff;padding:13px 22px;border-radius:13px;font-size:14px;font-weight:700;transition:transform .3s;}
+  
+  .switch-row{display:flex;align-items:center;gap:16px;padding:20px;border:2px solid #fca5a5;border-radius:16px;background:#fff7ed;cursor:pointer;transition: .2s;}
+  .switch-row:hover { background: #ffedd5; }
+  .switch{position:relative;width:56px;height:30px;flex:none;display:block;} 
+  .switch input{opacity:0;width:0;height:0;position:absolute;}
+  .switch .sl{position:absolute;inset:0;background:#cbd5e1;border-radius:999px;transition:.3s;cursor:pointer;box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);}
+  .switch .sl::after{content:'';position:absolute;top:4px;left:4px;width:22px;height:22px;background:#fff;border-radius:50%;transition:.3s;box-shadow: 0 2px 5px rgba(0,0,0,0.2);}
+  .switch input:checked + .sl{background:linear-gradient(135deg,#ef4444,#b91c1c)} 
+  .switch input:checked + .sl::after{transform:translateX(26px)}
+  
+  #toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(140%);background:#1e1b2e;color:#fff;padding:13px 22px;border-radius:13px;font-size:14px;font-weight:700;transition:transform .3s;z-index:9999;}
   #toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
@@ -55,7 +51,6 @@ window.onerror = function(msg) { document.body.innerHTML = '<div style="color:re
 
 let state = { ideas: [], gdz: [], admins: [], participants: {}, broadcasts: [], adminLogs: [], settings: {}, me: null, view: 'access' };
 const esc = s => String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fmtDate = ts => new Date(ts).toLocaleString('ru-RU', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
 const toast = msg => { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2500); };
 
 async function fetchData() {
@@ -92,11 +87,6 @@ async function doLogin() {
 }
 
 function renderDash() {
-  let nav = `<button data-v="access" class="${state.view==='access'?'active':''}">🔐 Настройки и Доступ</button>`;
-  nav += `<button class="refresh" onclick="fetchData()">↻ Обновить</button>`;
-
-  let content = viewAccess();
-
   document.getElementById('app').innerHTML = `
     <header class="site-header"><div class="header-inner">
       <div class="brand"><div class="logo">📬</div>Второй сайт</div>
@@ -106,44 +96,39 @@ function renderDash() {
       </div>
     </div></header>
     <main class="page">
-      <div class="nav">${nav}</div>
-      ${content}
-    </main>`;
-}
-
-async function doLogout() { await fetch('/api/logout',{method:'POST'}); fetchData(); }
-
-function viewAccess() {
-  const s = state.settings;
-  const isRoot = state.me.login === 'Maksim';
-  
-  return `
-    <div class="card">
-      <h2 class="h2">🔐 Управление доступом</h2>
-      <p class="sub">Главный админ (Maksim) всегда имеет доступ. Остальных можно перенаправить.</p>
-      
-      <form onsubmit="event.preventDefault();apiAction({action:'save_settings',settings:{redirectAll:document.getElementById('s-redirect').checked}})">
+      <div class="card">
+        <h2 class="h2">🔐 Управление доступом</h2>
+        <p class="sub">Главный админ (Maksim) всегда имеет доступ. Остальных можно перенаправить.</p>
         
-        <div class="switch-row" style="border-color: #fca5a5; background: #fff7ed; padding: 20px;">
+        <label class="switch-row">
           <div style="flex:1">
             <b style="color:#b91c1c; font-size: 16px;">🚨 ПЕРЕНАПРАВИТЬ ВСЕХ НА ОСНОВНОЙ САЙТ</b>
             <div style="font-size:13px;color:#9a3412; margin-top: 5px;">
               Если включить, то <b>все школьники и другие админы</b> моментально перенаправятся на <code>http://de-bots5.h1cloud.net:25191/</code>. Тебя (Maksim) это не коснется.
             </div>
           </div>
-          <span class="switch" style="transform: scale(1.3); margin-right: 10px;"><input type="checkbox" id="s-redirect" ${s.redirectAll?'checked':''}><span class="sl"></span></span>
-        </div>
-
-        <button class="btn btn-primary" style="margin-top:20px; width: 200px;">Сохранить настройки</button>
-      </form>
-    </div>`;
+          <span class="switch" onclick="event.preventDefault(); toggleRedirect(this.querySelector('input'))">
+            <input type="checkbox" ${state.settings.redirectAll ? 'checked' : ''}>
+            <span class="sl"></span>
+          </span>
+        </label>
+        
+      </div>
+    </main>`;
 }
 
-async function apiAction(data) { 
-    await fetch('/api/admin/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); 
-    fetchData(); 
-    toast('Сохранено!'); 
+async function toggleRedirect(input) {
+  const newValue = !input.checked;
+  await fetch('/api/admin/action', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ action: 'save_settings', settings: { ...state.settings, redirectAll: newValue } })
+  });
+  toast(newValue ? 'Перенаправление включено! 🚨' : 'Перенаправление выключено.');
+  fetchData();
 }
+
+async function doLogout() { await fetch('/api/logout',{method:'POST'}); fetchData(); }
 fetchData();
 </script>
 </body>
