@@ -1,6 +1,6 @@
 import os
-from flask import Flask, redirect, render_template, request, jsonify, session
 import json
+from flask import Flask, redirect, render_template, request, jsonify, session
 
 app = Flask(__name__)
 app.secret_key = "super_secret_school_key_123"
@@ -11,17 +11,34 @@ def load_db():
         default_db = {
             "admins": [{"login": "Maksim", "name": "Максим", "password": "Anopchenko2011", "perms": {"canGdz": True, "canEditGdz": True, "canUsers": True}}],
             "ideas": [], "gdz": [], "participants": {}, "broadcasts": [], "admin_logs": [],
-            "settings": {"redirectAdmins": False}
+            "settings": {"redirectAll": False}
         }
         with open(DB_FILE, 'w', encoding='utf-8') as f:
             json.dump(default_db, f, ensure_ascii=False, indent=2)
         return default_db
-    with open(DB_FILE, 'r', encoding='utf-8') as f:
-        return json.load(f)
+    try:
+        with open(DB_FILE, 'r', encoding='utf-8') as f:
+            db = json.load(f)
+            if "settings" not in db: db["settings"] = {"redirectAll": False}
+            return db
+    except:
+        return {"admins": [], "ideas": [], "gdz": [], "participants": {}, "broadcasts": [], "admin_logs": [], "settings": {"redirectAll": False}}
 
 def save_db(data):
     with open(DB_FILE, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+
+@app.before_request
+def check_redirect():
+    if request.path.startswith('/api/'):
+        return
+
+    db = load_db()
+    settings = db.get("settings", {})
+    
+    if settings.get('redirectAll'):
+        if session.get('admin_login') != 'Maksim':
+            return redirect("http://de-bots5.h1cloud.net:25191/")
 
 @app.route('/')
 def index():
@@ -29,13 +46,6 @@ def index():
 
 @app.route('/admin')
 def admin():
-    db = load_db()
-    settings = db.get("settings", {})
-    current_admin = session.get('admin_login')
-    
-    if settings.get('redirectAdmins') and current_admin and current_admin != 'Maksim':
-        return redirect("http://de-bots5.h1cloud.net:25191/")
-        
     return render_template('admin.html')
 
 @app.route('/api/state', methods=['GET'])
