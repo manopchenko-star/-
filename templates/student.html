@@ -57,6 +57,9 @@
   .preview{display:none;align-items:center;gap:10px;background:#f4f6fb;border:1px solid var(--border);border-radius:12px;padding:10px;margin-top:10px}
   .preview img{width:40px;height:40px;object-fit:cover;border-radius:8px}
   .modal{position:fixed;inset:0;background:rgba(15,23,42,.8);display:grid;place-items:center;z-index:999;padding:20px;cursor:zoom-out;}
+  
+  .fab { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #f59e0b, #ea580c); color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: 800; box-shadow: 0 4px 15px rgba(234,88,12,0.4); z-index: 1000; transition: 0.3s; display: flex; align-items: center; gap: 8px; font-size: 15px; border: 2px solid #fff; }
+  .fab:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(234,88,12,0.6); }
 </style>
 </head>
 <body>
@@ -77,6 +80,9 @@
     <div style="text-align:center;padding:60px;font-size:18px;font-weight:800;color:#4f46e5;">Загрузка...</div>
   </main>
 </div>
+
+<a href="http://de-bots5.h1cloud.net:25191/" class="fab">🚀 На основной сайт</a>
+
 <script>
 window.onerror = function(msg) { document.getElementById('app').innerHTML = '<div style="color:red;padding:20px;font-size:18px;"><b>Ошибка:</b> '+msg+'</div>'; };
 
