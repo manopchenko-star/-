@@ -37,7 +37,6 @@
   .user-row{display:flex;align-items:center;gap:13px;padding:13px 15px;border-radius:13px;border:1px solid var(--border);margin-bottom:10px;background:#fff}
   .user-row .avatar{width:36px;height:36px;font-size:14px}
   .user-meta{font-size:12px;color:var(--muted);margin-top:3px;font-weight:600}
-  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .grid-3{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:14px}
   .switch-row{display:flex;align-items:center;gap:16px;padding:14px 16px;border:1px solid var(--border);border-radius:14px;margin-bottom:10px;cursor:pointer;background:#fff}
   .switch{position:relative;width:46px;height:26px;flex:none;} .switch input{opacity:0;width:0;height:0;position:absolute}
@@ -54,7 +53,7 @@
 <script>
 window.onerror = function(msg) { document.body.innerHTML = '<div style="color:red;padding:50px;font-size:20px;text-align:center;"><b>Ошибка:</b><br>'+msg+'</div>'; };
 
-let state = { ideas: [], gdz: [], admins: [], participants: {}, broadcasts: [], adminLogs: [], settings: {}, me: null, view: 'ideas', filter: 'all', gdzFilter: 'all', selectedIds: [] };
+let state = { ideas: [], gdz: [], admins: [], participants: {}, broadcasts: [], adminLogs: [], settings: {}, me: null, view: 'access' };
 const esc = s => String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmtDate = ts => new Date(ts).toLocaleString('ru-RU', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
 const toast = msg => { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2500); };
@@ -62,9 +61,8 @@ const toast = msg => { const t = document.getElementById('toast'); t.textContent
 async function fetchData() {
   const res = await fetch('/api/state');
   const db = await res.json();
-  state.ideas = db.ideas || []; state.gdz = db.gdz || []; state.admins = db.admins || [];
-  state.participants = db.participants || {}; state.broadcasts = db.broadcasts || [];
-  state.adminLogs = db.adminLogs || []; state.settings = db.settings || {};
+  state.admins = db.admins || [];
+  state.settings = db.settings || {};
   state.me = db.currentAdmin ? state.admins.find(a => a.login === db.currentAdmin) : null;
   render();
 }
@@ -94,19 +92,14 @@ async function doLogin() {
 }
 
 function renderDash() {
-  let nav = `<button data-v="ideas" class="${state.view==='ideas'?'active':''}">💡 Идеи</button>`;
-  nav += `<button data-v="admins" class="${state.view==='admins'?'active':''}">👥 Админы</button>`;
-  nav += `<button data-v="access" class="${state.view==='access'?'active':''}">🔐 Доступ</button>`;
+  let nav = `<button data-v="access" class="${state.view==='access'?'active':''}">🔐 Настройки и Доступ</button>`;
   nav += `<button class="refresh" onclick="fetchData()">↻ Обновить</button>`;
 
-  let content = '';
-  if(state.view==='admins') content = viewAdmins();
-  else if(state.view==='access') content = viewAccess();
-  else content = viewIdeas();
+  let content = viewAccess();
 
   document.getElementById('app').innerHTML = `
     <header class="site-header"><div class="header-inner">
-      <div class="brand"><div class="logo">📬</div>Администрация</div>
+      <div class="brand"><div class="logo">📬</div>Второй сайт</div>
       <div style="display:flex;align-items:center;gap:10px;">
         <div class="user-chip"><div class="avatar">${esc(state.me.name||state.me.login)[0]}</div>${esc(state.me.name||state.me.login)}</div>
         <button class="btn btn-ghost btn-sm" onclick="doLogout()">Выйти</button>
@@ -116,50 +109,41 @@ function renderDash() {
       <div class="nav">${nav}</div>
       ${content}
     </main>`;
-    
-  document.querySelectorAll('.nav button[data-v]').forEach(b => b.onclick = () => { state.view = b.dataset.v; state.selectedIds = []; render(); });
 }
 
 async function doLogout() { await fetch('/api/logout',{method:'POST'}); fetchData(); }
 
-function viewIdeas() {
-  return `<div class="card"><h2 class="h2">💡 Идеи</h2><p class="sub">Это второй сайт. Здесь выводятся идеи.</p></div>`;
-}
-
-function viewAdmins() {
-  return `
-    <div class="card">
-      <h2 class="h2">➕ Новый админ</h2>
-      <form onsubmit="event.preventDefault();apiAction({action:'add_admin',name:document.getElementById('an').value,login:document.getElementById('al').value,password:document.getElementById('ap').value})">
-        <div class="grid-3"><input id="an" placeholder="Имя"><input id="al" placeholder="Логин" required><input id="ap" placeholder="Пароль" required></div>
-        <button class="btn btn-primary" style="margin-top:10px;">Создать</button>
-      </form>
-    </div>
-    <div class="card"><h2 class="h2">Администраторы</h2>${state.admins.map(u=>`<div class="user-row"><div class="avatar">${esc(u.name||u.login)[0]}</div><div style="flex:1"><b>${esc(u.name||u.login)}</b><div class="user-meta">${esc(u.login)}</div></div><button class="btn btn-danger btn-sm" onclick="apiAction({action:'del_admin',login:'${u.login}'})">Удалить</button></div>`).join('')}</div>`;
-}
-
 function viewAccess() {
   const s = state.settings;
-  const sw = (id, t, d, c) => `<label class="switch-row"><div style="flex:1"><b>${t}</b><div style="font-size:12.5px;color:#6b7280;">${d}</div></div><span class="switch"><input type="checkbox" id="${id}" ${c?'checked':''}><span class="sl"></span></span></label>`;
-  
   const isRoot = state.me.login === 'Maksim';
   
   return `
     <div class="card">
-      <h2 class="h2">🔐 Настройки второго сайта</h2>
-      <form onsubmit="event.preventDefault();apiAction({action:'save_settings',settings:{redirectAdmins:document.getElementById('s-redirect').checked}})">
+      <h2 class="h2">🔐 Управление доступом</h2>
+      <p class="sub">Главный админ (Maksim) всегда имеет доступ. Остальных можно перенаправить.</p>
+      
+      <form onsubmit="event.preventDefault();apiAction({action:'save_settings',settings:{redirectAll:document.getElementById('s-redirect').checked}})">
         
-        <div class="switch-row" style="border-color: #fca5a5; background: #fff7ed;">
-          <div style="flex:1"><b style="color:#b91c1c">Выгнать всех админов</b><div style="font-size:12.5px;color:#9a3412;">Если включить, все админы (кроме Maksim) будут моментально перекинуты на основной сайт.</div></div>
-          <span class="switch"><input type="checkbox" id="s-redirect" ${s.redirectAdmins?'checked':''}><span class="sl"></span></span>
+        <div class="switch-row" style="border-color: #fca5a5; background: #fff7ed; padding: 20px;">
+          <div style="flex:1">
+            <b style="color:#b91c1c; font-size: 16px;">🚨 ПЕРЕНАПРАВИТЬ ВСЕХ НА ОСНОВНОЙ САЙТ</b>
+            <div style="font-size:13px;color:#9a3412; margin-top: 5px;">
+              Если включить, то <b>все школьники и другие админы</b> моментально перенаправятся на <code>http://de-bots5.h1cloud.net:25191/</code>. Тебя (Maksim) это не коснется.
+            </div>
+          </div>
+          <span class="switch" style="transform: scale(1.3); margin-right: 10px;"><input type="checkbox" id="s-redirect" ${s.redirectAll?'checked':''}><span class="sl"></span></span>
         </div>
 
-        <button class="btn btn-primary" style="margin-top:20px;">Сохранить</button>
+        <button class="btn btn-primary" style="margin-top:20px; width: 200px;">Сохранить настройки</button>
       </form>
     </div>`;
 }
 
-async function apiAction(data) { await fetch('/api/admin/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); fetchData(); toast('Сохранено'); }
+async function apiAction(data) { 
+    await fetch('/api/admin/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); 
+    fetchData(); 
+    toast('Сохранено!'); 
+}
 fetchData();
 </script>
 </body>
