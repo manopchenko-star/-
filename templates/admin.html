@@ -4,776 +4,368 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Администрация — Школьный ящик идей</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
-  :root{
-    --primary:#4f46e5;--text:#1e1b2e;--muted:#6b7280;--border:#e5e7f0;
-    --gdz:#8b5cf6;
-    --shadow:0 10px 30px rgba(79,70,229,.08),0 2px 8px rgba(0,0,0,.04);
-  }
-  body{font-family:'Segoe UI',system-ui,-apple-system,'Helvetica Neue',Arial,sans-serif;
-    background:#f4f6fb;color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
-  .bg-blob{position:fixed;border-radius:50%;filter:blur(90px);opacity:.5;z-index:-1;pointer-events:none}
-  .blob1{width:420px;height:420px;background:#c7d2fe;top:-140px;left:-130px}
-  .blob2{width:380px;height:380px;background:#fde68a;bottom:-150px;right:-110px;opacity:.32}
-
-  @keyframes pop{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
-  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-
-  .logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:20px;
-    background:linear-gradient(135deg,#6366f1,#4f46e5);box-shadow:0 7px 18px rgba(79,70,229,.38);flex:none}
-
-  .login-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;
-    justify-content:center;padding:26px 20px;gap:26px}
-  .login-brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:16.5px;letter-spacing:-.02em}
-  .card{background:#fff;border:1px solid var(--border);border-radius:22px;padding:26px;
-    box-shadow:var(--shadow);animation:pop .35s cubic-bezier(.2,.9,.3,1);margin-bottom:18px}
+  :root{--primary:#4f46e5;--text:#1e1b2e;--muted:#6b7280;--border:#e5e7f0;--shadow:0 10px 30px rgba(79,70,229,.08)}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6fb;color:var(--text);min-height:100vh}
+  .logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:20px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff}
+  .login-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 20px;gap:26px}
+  .card{background:#fff;border:1px solid var(--border);border-radius:22px;padding:26px;box-shadow:var(--shadow);margin-bottom:18px;animation:pop .35s ease}
   .card.narrow{width:100%;max-width:430px}
-  .card h1{font-size:21px;letter-spacing:-.025em;margin-bottom:8px}
-  .lead{color:var(--muted);font-size:14px;line-height:1.55;margin-bottom:22px}
-
-  .field{margin-bottom:15px}
-  label{display:block;font-size:12.5px;font-weight:800;color:var(--muted);margin-bottom:7px;letter-spacing:.01em}
-  .opt{font-weight:600;text-transform:none;color:#aab0c4;font-size:11.5px}
-  
-  input:not([type="checkbox"]), textarea, select {
-    width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;
-    font-size:14px;font-family:inherit;background:#fff;color:var(--text);outline:none;transition:.2s
-  }
-  input::placeholder,textarea::placeholder{color:#aab0c4}
-  input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(79,70,229,.13)}
-  textarea{resize:vertical;line-height:1.55}
-  select{cursor:pointer}
-
-  .btn{border:none;border-radius:12px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer;
-    font-family:inherit;transition:.2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-  .btn-primary{background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;box-shadow:0 8px 20px rgba(79,70,229,.3)}
-  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 26px rgba(79,70,229,.4)}
-  .btn-primary:active{transform:none}
-  .btn-ghost{background:#eef0f8;color:var(--text)}
-  .btn-ghost:hover{background:#e2e5f4}
-  .btn-danger{background:#fee2e2;color:#b91c1c}
-  .btn-danger:hover{background:#fecaca}
-  .btn-sm{padding:8px 13px;font-size:13px;border-radius:10px}
-  .btn-block{width:100%}
-
-  .site-header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.82);
-    backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
-  .header-inner{max-width:1080px;margin:0 auto;padding:13px 24px;
-    display:flex;align-items:center;justify-content:space-between;gap:16px}
-  .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:16.5px;letter-spacing:-.02em}
+  h1{font-size:21px;margin-bottom:8px} .lead{color:var(--muted);font-size:14px;line-height:1.55;margin-bottom:22px}
+  .field{margin-bottom:15px} label{display:block;font-size:12.5px;font-weight:800;color:var(--muted);margin-bottom:7px}
+  input:not([type="checkbox"]), textarea, select {width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-family:inherit;outline:none}
+  .btn{border:none;border-radius:12px;padding:12px 18px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+  .btn-primary{background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff}
+  .btn-danger{background:#fee2e2;color:#b91c1c} .btn-ghost{background:#eef0f8;color:var(--text)}
+  .btn-sm{padding:8px 13px;font-size:13px;border-radius:10px} .btn-block{width:100%}
+  .site-header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+  .header-inner{max-width:1080px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:16.5px}
   .brand .logo{width:40px;height:40px;font-size:19px;border-radius:13px}
-  .header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-  .user-chip{display:flex;align-items:center;gap:9px;background:#fef3c7;border:1px solid #fde68a;
-    padding:6px 14px 6px 6px;border-radius:999px;font-size:13px;font-weight:800;color:#92400e}
-  .avatar{width:28px;height:28px;border-radius:50%;flex:none;
-    background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;
-    display:grid;place-items:center;font-weight:800;font-size:12.5px}
-
+  .user-chip{display:flex;align-items:center;gap:9px;background:#fef3c7;border:1px solid #fde68a;padding:6px 14px 6px 6px;border-radius:999px;font-size:13px;font-weight:800;color:#92400e}
+  .avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;display:grid;place-items:center;font-weight:800;font-size:12.5px}
   .page{max-width:1080px;margin:0 auto;padding:22px 24px 70px}
   .nav{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:20px}
-  .nav button{border:1px solid var(--border);background:#fff;padding:10px 17px;border-radius:12px;
-    font-weight:700;font-size:14px;color:var(--muted);cursor:pointer;font-family:inherit;transition:.22s}
-  .nav button:hover{border-color:#c7d2fe;color:var(--primary)}
-  .nav button.active{background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;
-    border-color:transparent;box-shadow:0 8px 18px rgba(79,70,229,.3)}
+  .nav button{border:1px solid var(--border);background:#fff;padding:10px 17px;border-radius:12px;font-weight:700;font-size:14px;color:var(--muted);cursor:pointer;font-family:inherit}
+  .nav button.active{background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border-color:transparent}
   .nav button.refresh{margin-left:auto;color:#4338ca;background:#eef2ff;border-color:#dbe1ff}
-  .nav button.refresh:hover{background:#e0e7ff}
-
-  .h2{font-size:17px;font-weight:800;letter-spacing:-.015em;display:flex;align-items:center;gap:9px;margin-bottom:6px}
+  .h2{font-size:17px;font-weight:800;display:flex;align-items:center;gap:9px;margin-bottom:6px}
   .count{font-size:12px;font-weight:800;background:#eef2ff;color:#4338ca;padding:3px 10px;border-radius:999px}
-  .sub{font-size:13.5px;color:var(--muted);margin-bottom:20px;line-height:1.55}
-
+  .sub{font-size:13.5px;color:var(--muted);margin-bottom:20px}
   .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
-  .stat{background:#fff;border:1px solid var(--border);border-radius:15px;padding:17px 19px;
-    box-shadow:var(--shadow);animation:pop .35s cubic-bezier(.2,.9,.3,1)}
-  .stat .num{font-size:27px;font-weight:800;letter-spacing:-.035em;line-height:1}
-  .stat .lbl{font-size:11.5px;color:var(--muted);font-weight:700;margin-top:6px}
-
-  .idea{background:#fff;border:1px solid var(--border);border-radius:15px;padding:18px 19px;
-    margin-bottom:13px;box-shadow:0 4px 14px rgba(79,70,229,.05);transition:.22s;animation:fadeIn .3s ease}
-  .idea:hover{box-shadow:0 12px 28px rgba(79,70,229,.11);transform:translateY(-1px)}
+  .stat{background:#fff;border:1px solid var(--border);border-radius:15px;padding:17px 19px;box-shadow:var(--shadow)}
+  .stat .num{font-size:27px;font-weight:800;line-height:1} .stat .lbl{font-size:11.5px;color:var(--muted);font-weight:700;margin-top:6px}
+  .chart-wrap { display: flex; align-items: flex-end; gap: 10px; height: 150px; margin-top: 15px; padding-bottom: 25px; border-bottom: 2px solid var(--border); position: relative; }
+  .chart-bar { flex: 1; background: linear-gradient(180deg, #818cf8, #4f46e5); border-radius: 6px 6px 0 0; position: relative; min-height: 4px; }
+  .chart-val { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 800; color: var(--primary); }
+  .chart-label { position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+  .idea{background:#fff;border:1px solid var(--border);border-radius:15px;padding:18px 19px;margin-bottom:13px;box-shadow:0 4px 14px rgba(79,70,229,.05);position:relative}
   .idea-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:9px}
-  .idea-title{font-weight:800;font-size:15.5px;line-height:1.35;letter-spacing:-.01em}
-  .idea-actions{display:flex;align-items:center;gap:8px;flex:none}
-  .idea-text{color:#3f3d56;font-size:14px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
-  .idea-meta{font-size:12px;color:var(--muted);margin-top:12px;display:flex;gap:14px;flex-wrap:wrap;font-weight:600}
-
-  .badge{font-size:11.5px;font-weight:800;padding:5px 11px;border-radius:999px;white-space:nowrap}
-  .badge.pending{background:#fef3c7;color:#b45309}
-  .badge.approved{background:#d1fae5;color:#047857}
-  .badge.rejected{background:#fee2e2;color:#b91c1c}
-  .badge.creator{background:#fef08a;color:#854d0e;border:1px solid #fde047}
-
-  .icon-btn{border:none;background:#f1f2f9;color:#6b7280;width:28px;height:28px;border-radius:9px;
-    cursor:pointer;font-size:13px;line-height:1;transition:.2s}
-  .icon-btn:hover{background:#fee2e2;color:#b91c1c}
-
-  .comment{background:#f8f9ff;border-left:3px solid var(--primary);padding:11px 15px;border-radius:9px;
-    font-size:13px;margin-top:13px;color:#3f3d56;line-height:1.55;white-space:pre-wrap}
-  .comment b{color:var(--primary)}
-
-  .admin-controls{display:grid;grid-template-columns:180px 1fr auto;gap:10px;align-items:start;
-    margin-top:15px;padding-top:15px;border-top:1px dashed var(--border)}
+  .idea-title{font-weight:800;font-size:15.5px;padding-left:28px}
+  .idea-text{color:#3f3d56;font-size:14px;white-space:pre-wrap;padding-left:28px}
+  .idea-meta{font-size:12px;color:var(--muted);margin-top:12px;font-weight:600;padding-left:28px}
+  .idea-checkbox{position:absolute;top:20px;left:18px;width:18px;height:18px;cursor:pointer;accent-color:var(--primary)}
+  .badge{font-size:11.5px;font-weight:800;padding:5px 11px;border-radius:999px}
+  .badge.pending{background:#fef3c7;color:#b45309} .badge.approved{background:#d1fae5;color:#047857} .badge.rejected{background:#fee2e2;color:#b91c1c}
+  .badge.creator{background:#fef08a;color:#854d0e}
+  .admin-note-box{background:#fff7ed;border:1px dashed #fdba74;padding:11px 15px;border-radius:9px;margin-top:13px;margin-left:28px}
+  .admin-note-box label{color:#c2410c;margin-bottom:4px;display:block;font-size:11px;font-weight:800}
+  .admin-note-box textarea{background:transparent;border:none;padding:0;font-size:13px;resize:none;min-height:36px;color:#9a3412;outline:none;box-shadow:none;}
+  .comment{background:#f8f9ff;border-left:3px solid var(--primary);padding:11px 15px;border-radius:9px;font-size:13px;margin-top:13px;color:#3f3d56;margin-left:28px}
+  .admin-controls{display:grid;grid-template-columns:180px 1fr auto;gap:10px;margin-top:15px;padding-top:15px;border-top:1px dashed var(--border);padding-left:28px}
   .admin-controls textarea{min-height:46px;height:46px;padding:11px 13px;font-size:13.5px}
-
   .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-  .filters button{border:1px solid var(--border);background:#fff;padding:8px 15px;border-radius:999px;
-    font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit;transition:.2s}
-  .filters button:hover{border-color:#c7d2fe;color:var(--primary)}
+  .filters button{border:1px solid var(--border);background:#fff;padding:8px 15px;border-radius:999px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer}
   .filters button.active{background:#eef2ff;color:#4338ca;border-color:#c7d2fe}
-
-  .user-row{display:flex;align-items:center;gap:13px;padding:13px 15px;border-radius:13px;
-    border:1px solid var(--border);margin-bottom:10px;background:#fff;transition:.2s}
-  .user-row:hover{background:#fafbff;border-color:#d8dcf0}
+  .bulk-actions{background:#eef2ff;border:1px solid #c7d2fe;padding:12px 18px;border-radius:14px;margin-bottom:15px;display:flex;align-items:center;gap:15px;font-weight:700}
+  .user-row{display:flex;align-items:center;gap:13px;padding:13px 15px;border-radius:13px;border:1px solid var(--border);margin-bottom:10px;background:#fff}
   .user-row .avatar{width:36px;height:36px;font-size:14px}
   .user-meta{font-size:12px;color:var(--muted);margin-top:3px;font-weight:600}
-  .role-badge{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;
-    background:#fef3c7;color:#b45309;text-transform:uppercase;letter-spacing:.05em}
-
+  .role-badge{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:#fef3c7;color:#b45309}
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .grid-3{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:14px}
-  .empty{text-align:center;padding:44px 20px;color:var(--muted)}
-  .empty .em{font-size:44px;margin-bottom:12px;opacity:.85}
-  .empty .t{font-weight:800;color:var(--text);margin-bottom:5px;font-size:15px}
-  .empty .d{font-size:13px}
-
-  .photo-btn{border:none;background:transparent;padding:0;cursor:zoom-in;display:block;margin-top:12px}
-  .photo-btn img{max-width:100%;max-height:240px;border-radius:12px;border:1px solid var(--border);display:block}
-  .modal{position:fixed;inset:0;background:rgba(15,23,42,.78);display:grid;place-items:center;
-    padding:24px;z-index:200;cursor:zoom-out;animation:fadeIn .2s ease}
-  .modal img{max-width:100%;max-height:100%;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-
-  .perm-card {
-    background: #fff; border: 1px solid var(--border); border-radius: 16px;
-    padding: 16px; margin-bottom: 12px; transition: .2s;
-  }
-  .perm-card:hover { border-color: #c7d2fe; }
-  .perm-header {
-    display: flex; align-items: center; gap: 10px; font-weight: 800;
-    font-size: 15px; margin-bottom: 14px; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px;
-  }
-  .perm-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;
-  }
-  .perm-label {
-    display: flex; align-items: center; gap: 10px; cursor: pointer;
-    background: #f8fafc; padding: 10px 14px; border-radius: 10px;
-    font-weight: 600; font-size: 13.5px; color: var(--text);
-    border: 1px solid transparent; transition: .2s; margin: 0;
-  }
-  .perm-label:hover { background: #f1f5f9; border-color: var(--border); }
-  .perm-label input[type="checkbox"] {
-    width: 18px; height: 18px; margin: 0; cursor: pointer;
-    accent-color: var(--primary);
-  }
-
-  .switch-row{display:flex;align-items:center;gap:16px;padding:14px 16px;border:1px solid var(--border);
-    border-radius:14px;margin-bottom:10px;cursor:pointer;transition:.2s;background:#fff}
-  .switch-row:hover{background:#fafbff;border-color:#d8dcf0}
-  .switch-txt{flex:1;min-width:0}
-  .switch-title{font-weight:800;font-size:14px}
-  .switch-desc{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.45}
-  .switch{position:relative;width:46px;height:26px;flex:none;display:block}
-  .switch input{opacity:0;width:0;height:0;position:absolute}
+  .empty{text-align:center;padding:44px 20px;color:var(--muted)} .empty .em{font-size:44px;margin-bottom:12px;}
+  .switch-row{display:flex;align-items:center;gap:16px;padding:14px 16px;border:1px solid var(--border);border-radius:14px;margin-bottom:10px;cursor:pointer;background:#fff}
+  .switch{position:relative;width:46px;height:26px;flex:none;} .switch input{opacity:0;width:0;height:0;position:absolute}
   .switch .sl{position:absolute;inset:0;background:#dfe3ef;border-radius:999px;transition:.25s;cursor:pointer}
-  .switch .sl::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;
-    background:#fff;border-radius:50%;transition:.25s;box-shadow:0 2px 6px rgba(0,0,0,.18)}
-  .switch input:checked + .sl{background:linear-gradient(135deg,#6366f1,#4f46e5)}
-  .switch input:checked + .sl::after{transform:translateX(20px)}
-
-  .muted-note{font-size:12.5px;color:var(--muted);line-height:1.55;margin-top:16px}
-
-  #toast{position:fixed;bottom:26px;left:50%;z-index:300;max-width:90vw;
-    transform:translateX(-50%) translateY(140%);background:#1e1b2e;color:#fff;
-    padding:13px 22px;border-radius:13px;font-size:14px;font-weight:700;
-    box-shadow:0 14px 34px rgba(0,0,0,.28);transition:transform .38s cubic-bezier(.2,.9,.3,1)}
+  .switch .sl::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.25s;}
+  .switch input:checked + .sl{background:linear-gradient(135deg,#6366f1,#4f46e5)} .switch input:checked + .sl::after{transform:translateX(20px)}
+  .log-row { background: #fff; padding: 12px 18px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 10px; display: flex; justify-content: space-between; font-size: 14px; }
+  #toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(140%);background:#1e1b2e;color:#fff;padding:13px 22px;border-radius:13px;font-size:14px;font-weight:700;transition:transform .3s;}
   #toast.show{transform:translateX(-50%) translateY(0)}
-
-  @media(max-width:760px){ .admin-controls{grid-template-columns:1fr} .grid-2{grid-template-columns:1fr} }
-  @media(max-width:560px){
-    .header-inner{padding:12px 15px}
-    .brand{font-size:15px}
-    .brand .logo{width:36px;height:36px;font-size:17px}
-    .page{padding:18px 15px 60px}
-    .card{padding:20px 16px}
-    .idea-head{flex-direction:column;align-items:flex-start}
-    .nav button.refresh{margin-left:0}
-  }
+  .modal{position:fixed;inset:0;background:rgba(15,23,42,.78);display:grid;place-items:center;padding:24px;z-index:200;cursor:zoom-out}
+  .modal img{max-width:100%;max-height:100%;border-radius:14px}
+  @keyframes pop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 </style>
 </head>
 <body>
-
-<div class="bg-blob blob1"></div>
-<div class="bg-blob blob2"></div>
-<div id="app"></div>
+<div id="app"><div style="text-align:center;padding:100px;font-size:20px;font-weight:800;color:#4f46e5;">Загрузка панели...</div></div>
 <div id="toast"></div>
-
 <script>
-(function(){
-'use strict';
+window.onerror = function(msg) { document.body.innerHTML = '<div style="color:red;padding:50px;font-size:20px;text-align:center;"><b>Ошибка:</b><br>'+msg+'</div>'; };
 
 const DEFAULT_PERMS = { canGdz: true, canEditGdz: true, canUsers: true };
-const STATUS = {
-  pending:{ label:'На рассмотрении', cls:'pending' },
-  approved:{ label:'Принято', cls:'approved' },
-  rejected:{ label:'Отклонено', cls:'rejected' }
-};
+const STATUS = { pending:{ label:'На рассмотрении', cls:'pending' }, approved:{ label:'Принято', cls:'approved' }, rejected:{ label:'Отклонено', cls:'rejected' } };
+let state = { ideas: [], gdz: [], admins: [], participants: {}, broadcasts: [], adminLogs: [], settings: {}, me: null, view: 'ideas', filter: 'all', gdzFilter: 'all', selectedIds: [] };
 
-const app = document.getElementById('app');
-const toastEl = document.getElementById('toast');
-
-let state = { 
-  ideas: [], 
-  gdz: [], 
-  admins: [], 
-  participants: {},
-  settings: {}, 
-  me: null, 
-  view: 'ideas', 
-  filter: 'all', 
-  gdzFilter: 'all' 
-};
-
-function esc(s){
-  return String(s == null ? '' : s)
-    .replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-function fmtDate(ts){
-  return new Date(ts).toLocaleString('ru-RU',
-    { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
-}
-function toast(msg){
-  toastEl.textContent = msg;
-  toastEl.classList.add('show');
-  clearTimeout(toastEl._tid);
-  toastEl._tid = setTimeout(function(){ toastEl.classList.remove('show'); }, 2700);
-}
-function titleOf(idea){
-  const raw = (idea.title || idea.text || '').trim();
-  const line = raw.split('\n')[0].trim();
-  if(!line) return 'Без названия';
-  return line.length > 72 ? line.slice(0,72) + '…' : line;
-}
-function shortQ(q){
-  const raw = String(q || '').trim();
-  const line = raw.split('\n')[0].trim();
-  if(!line) return 'Задание';
-  return line.length > 72 ? line.slice(0,72) + '…' : line;
-}
+const esc = s => String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtDate = ts => new Date(ts).toLocaleString('ru-RU', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+const toast = msg => { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2500); };
+const titleOf = i => (i.text || '').split('\n')[0].slice(0, 80) || 'Без названия';
+const shortQ = q => (q || '').split('\n')[0].slice(0, 80) || 'Задание';
 
 async function fetchData() {
   try {
     const res = await fetch('/api/state');
+    if(!res.ok) throw new Error('Ошибка сервера: ' + res.status);
     const db = await res.json();
-    state.ideas = db.ideas || [];
-    state.gdz = db.gdz || [];
-    state.admins = db.admins || [];
-    state.participants = db.participants || {};
-    state.settings = db.settings || {};
+    state.ideas = db.ideas || []; state.gdz = db.gdz || []; state.admins = db.admins || [];
+    state.participants = db.participants || {}; state.broadcasts = db.broadcasts || [];
+    state.adminLogs = db.adminLogs || []; state.settings = db.settings || {};
     state.me = db.currentAdmin ? state.admins.find(a => a.login === db.currentAdmin) : null;
     render();
   } catch(e) {
-    console.error("Ошибка загрузки", e);
+    document.getElementById('app').innerHTML = `<div style="text-align:center;padding:100px;font-family:sans-serif;"><h2 style="color:red;">Ошибка загрузки</h2><p>${e.message}</p><button onclick="location.reload()" style="padding:10px 20px;margin-top:20px;cursor:pointer;">Обновить</button></div>`;
   }
 }
 
-function render(){
-  state.me ? renderDashboard() : renderLogin();
-  window.scrollTo(0,0);
+function render() {
+  state.me ? renderDash() : renderLogin();
 }
 
-function renderLogin(){
-  app.innerHTML =
-    '<div class="login-wrap">' +
-      '<div class="login-brand"><div class="logo">🔐</div><div>Школьный ящик идей</div></div>' +
-      '<div class="card narrow">' +
-        '<h1>Вход для администрации</h1>' +
-        '<p class="lead">Доступ только для сотрудников школы.</p>' +
-        '<form id="login-form" autocomplete="off">' +
-          '<div class="field"><label for="login">Логин</label><input id="login" placeholder="Maksim" required></div>' +
-          '<div class="field"><label for="pass">Пароль</label><input id="pass" type="password" placeholder="••••••••" required></div>' +
-          '<button class="btn btn-primary btn-block" type="submit">Войти</button>' +
-        '</form>' +
-      '</div>' +
-    '</div>';
+function renderLogin() {
+  document.getElementById('app').innerHTML = `
+    <div class="login-wrap">
+      <div class="brand"><div class="logo">🔐</div>Школьный ящик идей</div>
+      <div class="card narrow">
+        <h1>Вход для администрации</h1>
+        <form onsubmit="event.preventDefault();doLogin()">
+          <div class="field"><label>Логин</label><input id="login" required></div>
+          <div class="field"><label>Пароль</label><input id="pass" type="password" required></div>
+          <button class="btn btn-primary btn-block" type="submit">Войти</button>
+        </form>
+      </div>
+    </div>`;
 }
 
-function renderDashboard(){
+async function doLogin() {
+  const r = await fetch('/api/login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ login:document.getElementById('login').value, password:document.getElementById('pass').value }) }).then(r=>r.json());
+  if(r.status==='ok') fetchData(); else toast(r.message);
+}
+
+function renderDash() {
   const p = state.me.perms || DEFAULT_PERMS;
-  const navItems = [];
-  
-  navItems.push(['ideas','💡 Идеи']);
-  if(p.canGdz) navItems.push(['gdz','🧠 Нейро-ГДЗ']);
-  if(p.canUsers) {
-    navItems.push(['admins','👥 Администраторы']);
-    navItems.push(['participants','👤 Участники']);
-  }
-  navItems.push(['access','🔐 Доступ']);
-
-  if(state.view === 'gdz' && !p.canGdz) state.view = 'ideas';
-  if(state.view === 'admins' && !p.canUsers) state.view = 'ideas';
-  if(state.view === 'participants' && !p.canUsers) state.view = 'ideas';
+  let nav = `<button data-v="ideas" class="${state.view==='ideas'?'active':''}">💡 Идеи</button>`;
+  if(p.canGdz) nav += `<button data-v="gdz" class="${state.view==='gdz'?'active':''}">🧠 ГДЗ</button>`;
+  if(p.canUsers) nav += `<button data-v="admins" class="${state.view==='admins'?'active':''}">👥 Админы</button><button data-v="participants" class="${state.view==='participants'?'active':''}">👤 Участники</button>`;
+  nav += `<button data-v="broadcasts" class="${state.view==='broadcasts'?'active':''}">📢 Рассылки</button><button data-v="logs" class="${state.view==='logs'?'active':''}">📜 Логи</button><button data-v="access" class="${state.view==='access'?'active':''}">🔐 Доступ</button><button class="refresh" onclick="fetchData()">↻ Обновить</button>`;
 
   let content = '';
-  if(state.view === 'gdz')        content = viewGdz();
-  else if(state.view === 'admins')content = viewAdmins();
-  else if(state.view === 'participants')content = viewParticipants();
-  else if(state.view === 'access')content = viewAccess();
-  else                            content = viewIdeas();
+  if(state.view==='gdz') content = viewGdz();
+  else if(state.view==='admins') content = viewAdmins();
+  else if(state.view==='participants') content = viewParticipants();
+  else if(state.view==='broadcasts') content = viewBroadcasts();
+  else if(state.view==='logs') content = viewLogs();
+  else if(state.view==='access') content = viewAccess();
+  else content = viewIdeas();
 
-  const displayName = state.me.name || state.me.login;
-  const initial = displayName.charAt(0).toUpperCase();
-
-  app.innerHTML =
-    '<header class="site-header">' +
-      '<div class="header-inner">' +
-        '<div class="brand"><div class="logo">📬</div><div>Администрация</div></div>' +
-        '<div class="header-right">' +
-          '<div class="user-chip"><div class="avatar">' + esc(initial) + '</div><span>' + esc(displayName) + '</span></div>' +
-          '<button class="btn btn-ghost btn-sm" data-action="logout">Выйти</button>' +
-        '</div>' +
-      '</div>' +
-    '</header>' +
-    '<main class="page">' +
-      '<div class="nav">' +
-        navItems.map(function(it){
-          return '<button data-view="' + it[0] + '" class="' +
-            (state.view === it[0] ? 'active' : '') + '">' + it[1] + '</button>';
-        }).join('') +
-        '<button class="refresh" data-action="refresh">↻ Обновить</button>' +
-      '</div>' +
-      content +
-    '</main>';
-}
-
-function viewIdeas(){
-  let list = state.ideas.slice().sort(function(a,b){ return (b.createdAt||0)-(a.createdAt||0); });
-  if(state.filter !== 'all') list = list.filter(function(i){ return i.status === state.filter; });
-
-  const filters = [['all','Все'],['pending','На рассмотрении'],['approved','Принято'],['rejected','Отклонено']];
-
-  return statsIdeas() +
-    '<div class="card">' +
-      '<h2 class="h2">💡 Идеи учеников <span class="count">' + state.ideas.length + '</span></h2>' +
-      '<p class="sub">Меняй статус идеи и оставляй комментарий.</p>' +
-      '<div class="filters">' +
-        filters.map(function(f){
-          return '<button data-filter="' + f[0] + '" class="' + (state.filter === f[0] ? 'active' : '') + '">' + f[1] + '</button>';
-        }).join('') +
-      '</div>' +
-      (list.length ? list.map(ideaCard).join('') : emptyHtml('Идей пока нет', 'Как только ученики начнут писать, идеи появятся здесь.')) +
-    '</div>';
-}
-
-function statsIdeas(){
-  const p = state.ideas.filter(function(i){ return i.status === 'pending'; }).length;
-  const a = state.ideas.filter(function(i){ return i.status === 'approved'; }).length;
-  const r = state.ideas.filter(function(i){ return i.status === 'rejected'; }).length;
-  return '<div class="stats">' +
-    '<div class="stat"><div class="num">' + state.ideas.length + '</div><div class="lbl">Всего идей</div></div>' +
-    '<div class="stat"><div class="num" style="color:#b45309">' + p + '</div><div class="lbl">На рассмотрении</div></div>' +
-    '<div class="stat"><div class="num" style="color:#047857">' + a + '</div><div class="lbl">Принято</div></div>' +
-    '<div class="stat"><div class="num" style="color:#b91c1c">' + r + '</div><div class="lbl">Отклонено</div></div>' +
-  '</div>';
-}
-
-function ideaCard(idea){
-  const st = STATUS[idea.status] || STATUS.pending;
-  const isCreator = state.participants[idea.author]?.role === 'creator';
-  const creatorBadge = isCreator ? ' <span class="badge creator" style="font-size:9px;padding:2px 6px">Создатель</span>' : '';
-  
-  return '<div class="idea" data-id="' + esc(idea.id) + '">' +
-    '<div class="idea-head">' +
-      '<div class="idea-title">' + esc(titleOf(idea)) + '</div>' +
-      '<div class="idea-actions">' +
-        '<span class="badge ' + st.cls + '">' + st.label + '</span>' +
-        '<button class="icon-btn" data-action="del-idea" data-id="' + esc(idea.id) + '" title="Удалить">✕</button>' +
-      '</div>' +
-    '</div>' +
-    '<div class="idea-text">' + esc(idea.text) + '</div>' +
-    '<div class="idea-meta"><span>👤 ' + esc(idea.author) + creatorBadge + '</span><span>🕒 ' + fmtDate(idea.createdAt) + '</span></div>' +
-    (idea.comment ? '<div class="comment"><b>Комментарий:</b> ' + esc(idea.comment) + '</div>' : '') +
-    '<div class="admin-controls">' +
-      '<select data-role="status">' +
-        Object.keys(STATUS).map(function(k){
-          return '<option value="' + k + '"' + (k === idea.status ? ' selected' : '') + '>' + STATUS[k].label + '</option>';
-        }).join('') +
-      '</select>' +
-      '<textarea data-role="comment" placeholder="Комментарий к идее...">' + esc(idea.comment || '') + '</textarea>' +
-      '<button class="btn btn-primary btn-sm" data-action="save-idea" data-id="' + esc(idea.id) + '">Сохранить</button>' +
-    '</div>' +
-  '</div>';
-}
-
-function viewGdz(){
-  let list = state.gdz.slice().sort(function(a,b){ return (b.createdAt||0)-(a.createdAt||0); });
-  if(state.gdzFilter !== 'all'){
-    list = list.filter(function(r){ return (r.status || 'new') === state.gdzFilter; });
-  }
-
-  const filters = [['all','Все'],['new','Новые'],['answered','Проверенные']];
-  const canEdit = state.me.perms && state.me.perms.canEditGdz;
-
-  return statsGdz() +
-    '<div class="card">' +
-      '<h2 class="h2">🧠 Запросы к Нейро-ГДЗ <span class="count">' + state.gdz.length + '</span></h2>' +
-      '<p class="sub">Бот даёт предварительный ответ. Проверь его, исправь при необходимости — ученик увидит именно твой ответ.</p>' +
-      '<div class="filters">' +
-        filters.map(function(f){
-          return '<button data-gdz-filter="' + f[0] + '" class="' + (state.gdzFilter === f[0] ? 'active' : '') + '">' + f[1] + '</button>';
-        }).join('') +
-      '</div>' +
-      (list.length ? list.map(r => gdzCard(r, canEdit)).join('') : emptyHtml('Запросов пока нет', 'Как только ученики начнут спрашивать бота, задания появятся здесь.')) +
-    '</div>';
-}
-
-function statsGdz(){
-  const n = state.gdz.filter(function(r){ return (r.status || 'new') === 'new'; }).length;
-  const a = state.gdz.filter(function(r){ return r.status === 'answered'; }).length;
-  return '<div class="stats">' +
-    '<div class="stat"><div class="num">' + state.gdz.length + '</div><div class="lbl">Всего запросов</div></div>' +
-    '<div class="stat"><div class="num" style="color:#b45309">' + n + '</div><div class="lbl">Новых</div></div>' +
-    '<div class="stat"><div class="num" style="color:#047857">' + a + '</div><div class="lbl">Проверено</div></div>' +
-  '</div>';
-}
-
-function gdzCard(r, canEdit){
-  const answered = r.status === 'answered';
-  const isCreator = state.participants[r.author]?.role === 'creator';
-  const creatorBadge = isCreator ? ' <span class="badge creator" style="font-size:9px;padding:2px 6px">Создатель</span>' : '';
-  
-  return '<div class="idea" data-id="' + esc(r.id) + '">' +
-    '<div class="idea-head">' +
-      '<div class="idea-title">' + esc(shortQ(r.question)) + '</div>' +
-      '<div class="idea-actions">' +
-        '<span class="badge ' + (answered ? 'approved' : 'pending') + '">' + (answered ? 'Проверен' : 'Новый') + '</span>' +
-        (canEdit ? '<button class="icon-btn" data-action="del-gdz" data-id="' + esc(r.id) + '" title="Удалить">✕</button>' : '') +
-      '</div>' +
-    '</div>' +
-    '<div class="idea-text">' + esc(r.question) + '</div>' +
-    (r.image ? '<button class="photo-btn" data-action="zoom" data-id="' + esc(r.id) + '"><img src="' + r.image + '" alt="фото"></button>' : '') +
-    '<div class="idea-meta"><span>👤 ' + esc(r.author) + creatorBadge + '</span><span>🕒 ' + fmtDate(r.createdAt) + '</span></div>' +
-    '<div class="comment"><b>Ответ нейросети:</b>\n' + esc(r.botAnswer || '—') + '</div>' +
-    (r.adminAnswer ? '<div class="comment" style="border-left-color:#10b981"><b style="color:#047857">Текущий ответ ученику:</b>\n' + esc(r.adminAnswer) + '</div>' : '') +
-    (canEdit ? 
-      '<div class="admin-controls">' +
-        '<select data-role="gdz-status">' +
-          '<option value="new"' + (answered ? '' : ' selected') + '>Новый</option>' +
-          '<option value="answered"' + (answered ? ' selected' : '') + '>Проверен</option>' +
-        '</select>' +
-        '<textarea data-role="gdz-answer" placeholder="Правильный ответ для ученика...">' + esc(r.adminAnswer || '') + '</textarea>' +
-        '<button class="btn btn-primary btn-sm" data-action="save-gdz" data-id="' + esc(r.id) + '">Сохранить</button>' +
-      '</div>' : '<div class="muted-note">У вас нет прав на редактирование ответов.</div>'
-    ) +
-  '</div>';
-}
-
-function viewParticipants(){
-  const names = Object.keys(state.participants).sort();
-  
-  if(names.length === 0){
-    return '<div class="card">' + emptyHtml('Пока нет участников', 'Как только кто-то напишет идею или задание, он появится здесь.') + '</div>';
-  }
-
-  return '<div class="card">' +
-    '<h2 class="h2">👤 Участники <span class="count">' + names.length + '</span></h2>' +
-    '<p class="sub">Здесь отображаются все, кто оставлял идеи или вопросы. Вы можете выдать роль «Создатель».</p>' +
-    names.map(name => {
-      const p = state.participants[name];
-      const isCreator = p.role === 'creator';
-      const initial = name.charAt(0).toUpperCase();
-      return '<div class="user-row">' +
-        '<div class="avatar">' + esc(initial) + '</div>' +
-        '<div style="flex:1;min-width:0">' +
-          '<div style="font-weight:800;font-size:14px">' + esc(name) + '</div>' +
-          '<div class="user-meta">' + (isCreator ? 'Создатель' : 'Ученик') + '</div>' +
-        '</div>' +
-        (isCreator 
-          ? '<button class="btn btn-ghost btn-sm" data-action="set-role" data-name="' + esc(name) + '" data-role="student">Забрать роль</button>'
-          : '<button class="btn btn-primary btn-sm" data-action="set-role" data-name="' + esc(name) + '" data-role="creator" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;border:none">Выдать Создателя</button>') +
-      '</div>';
-    }).join('') +
-  '</div>';
-}
-
-function viewAdmins(){
-  return '<div class="card">' +
-      '<h2 class="h2">➕ Новый администратор</h2>' +
-      '<p class="sub">Ученикам регистрация не нужна. Здесь создаются аккаунты только для сотрудников.</p>' +
-      '<form id="admin-form" autocomplete="off">' +
-        '<div class="grid-3">' +
-          '<div class="field"><label for="new-name">Имя <span class="opt">(по желанию)</span></label><input id="new-name" placeholder="Например, Светлана"></div>' +
-          '<div class="field"><label for="new-login">Логин</label><input id="new-login" placeholder="s.belova" required></div>' +
-          '<div class="field"><label for="new-pass">Пароль</label><input id="new-pass" placeholder="минимум 4 символа" required></div>' +
-        '</div>' +
-        '<button class="btn btn-primary" type="submit">Создать аккаунт</button>' +
-      '</form>' +
-    '</div>' +
-    '<div class="card">' +
-      '<h2 class="h2">👥 Администраторы <span class="count">' + state.admins.length + '</span></h2>' +
-      state.admins.map(adminRow).join('') +
-    '</div>';
-}
-
-function adminRow(u){
-  const isRoot = u.login === 'Maksim';
-  const p = u.perms || DEFAULT_PERMS;
-  const displayName = u.name || u.login;
-  const initial = displayName.charAt(0).toUpperCase();
-  
-  const permsText = [];
-  if(p.canGdz) permsText.push('ГДЗ');
-  if(p.canEditGdz) permsText.push('Ответы');
-  if(p.canUsers) permsText.push('Юзеры');
-  
-  return '<div class="user-row">' +
-    '<div class="avatar">' + esc(initial) + '</div>' +
-    '<div style="flex:1;min-width:0">' +
-      '<div style="font-weight:800;font-size:14px">' + esc(displayName) + '</div>' +
-      '<div class="user-meta">Логин: ' + esc(u.login) + ' · Права: ' + (permsText.length ? permsText.join(', ') : 'Только идеи') + '</div>' +
-    '</div>' +
-    '<span class="role-badge">Админ</span>' +
-    (!isRoot ? '<button class="btn btn-danger btn-sm" data-action="del-admin" data-login="' + esc(u.login) + '">Удалить</button>' : '<span class="user-meta">главный</span>') +
-  '</div>';
-}
-
-function switchRow(id, title, desc, checked){
-  return '<label class="switch-row" for="' + id + '">' +
-    '<div class="switch-txt"><div class="switch-title">' + title + '</div><div class="switch-desc">' + desc + '</div></div>' +
-    '<span class="switch"><input type="checkbox" id="' + id + '"' + (checked ? ' checked' : '') + '><span class="sl"></span></span>' +
-  '</label>';
-}
-
-function viewAccess(){
-  const s = state.settings || {};
-  const isRoot = state.me.login === 'Maksim';
-
-  let adminPermsHtml = '';
-  if(isRoot){
-    const otherAdmins = state.admins.filter(a => a.login !== 'Maksim');
+  document.getElementById('app').innerHTML = `
+    <header class="site-header"><div class="header-inner">
+      <div class="brand"><div class="logo">📬</div>Администрация</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="user-chip"><div class="avatar">${esc(state.me.name||state.me.login)[0]}</div>${esc(state.me.name||state.me.login)}</div>
+        <button class="btn btn-ghost btn-sm" onclick="doLogout()">Выйти</button>
+      </div>
+    </div></header>
+    <main class="page">
+      <div class="nav">${nav}</div>
+      ${content}
+    </main>`;
     
+  document.querySelectorAll('.nav button[data-v]').forEach(b => b.onclick = () => { state.view = b.dataset.v; state.selectedIds = []; render(); });
+}
+
+async function doLogout() { await fetch('/api/logout',{method:'POST'}); fetchData(); }
+
+function viewIdeas() {
+  let list = state.ideas.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  if(state.filter!=='all') list = list.filter(i=>i.status===state.filter);
+  
+  const days = {}; for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days[d.toLocaleDateString('ru-RU')]=0;}
+  state.ideas.forEach(i=>{const d=new Date(i.createdAt).toLocaleDateString('ru-RU');if(days[d]!==undefined)days[d]++;});
+  const max = Math.max(...Object.values(days), 1);
+  const bars = Object.keys(days).map(date=>`<div class="chart-bar" style="height:${Math.round(days[date]/max*100)}%"><div class="chart-val">${days[date]}</div><div class="chart-label">${date.split('.')[0]}.${date.split('.')[1]}</div></div>`).join('');
+
+  const bulk = state.selectedIds.length ? `<div class="bulk-actions">Выбрано: <span>${state.selectedIds.length}</span><button class="btn btn-primary btn-sm" onclick="bulkAction('bulk_approve')">Принять</button><button class="btn btn-danger btn-sm" onclick="bulkAction('bulk_delete')">Удалить</button><button class="btn btn-ghost btn-sm" onclick="state.selectedIds=[];render()">Отмена</button></div>` : '';
+
+  const listHtml = list.length ? list.map(i=>`
+    <div class="idea">
+      <input type="checkbox" class="idea-checkbox" ${state.selectedIds.includes(i.id)?'checked':''} onchange="toggleSelect('${i.id}')">
+      <div class="idea-head">
+        <div class="idea-title">${esc(titleOf(i))}</div>
+        <div style="display:flex;gap:8px;">
+          <span class="badge ${STATUS[i.status].cls}">${STATUS[i.status].label}</span>
+          <button class="btn btn-danger btn-sm" style="padding:2px 8px;" onclick="apiAction({action:'del_idea',id:'${i.id}'})">✕</button>
+        </div>
+      </div>
+      <div class="idea-text">${esc(i.text)}</div>
+      ${i.image?`<img src="${i.image}" style="max-width:100%;max-height:200px;border-radius:10px;margin:10px 0 0 28px;cursor:pointer;" onclick="showImg('${i.image}')">`:''}
+      <div class="idea-meta">👤 ${esc(i.author)} · 🕒 ${fmtDate(i.createdAt)} · 👍 ${(i.likes||[]).length} · 👎 ${(i.dislikes||[]).length}</div>
+      
+      <div class="admin-note-box"><label>Скрытая заметка</label><textarea id="note-${i.id}">${esc(i.adminNote||'')}</textarea></div>
+      ${i.comment?`<div class="comment"><b>Ответ:</b> ${esc(i.comment)}</div>`:''}
+      
+      <div class="admin-controls">
+        <select id="st-${i.id}"><option value="pending" ${i.status==='pending'?'selected':''}>На рассмотрении</option><option value="approved" ${i.status==='approved'?'selected':''}>Принято</option><option value="rejected" ${i.status==='rejected'?'selected':''}>Отклонено</option></select>
+        <textarea id="cm-${i.id}" placeholder="Видимый ответ...">${esc(i.comment||'')}</textarea>
+        <button class="btn btn-primary btn-sm" onclick="saveIdea('${i.id}')">Сохранить</button>
+      </div>
+    </div>
+  `).join('') : '<div class="empty">Идей пока нет</div>';
+
+  return `
+    <div class="stats"><div class="stat"><div class="num">${state.ideas.length}</div><div class="lbl">Всего идей</div></div><div class="stat"><div class="num" style="color:#b45309">${state.ideas.filter(i=>i.status==='pending').length}</div><div class="lbl">В ожидании</div></div></div>
+    <div class="card" style="padding:18px 24px;"><h3 style="font-size:14px;font-weight:800;margin-bottom:15px;color:#6b7280;">Статистика за 7 дней</h3><div class="chart-wrap">${bars}</div></div>
+    <div class="card">
+      <h2 class="h2">💡 Идеи <span class="count">${state.ideas.length}</span></h2>
+      <div class="filters">
+        <button onclick="state.filter='all';render()" class="${state.filter==='all'?'active':''}">Все</button>
+        <button onclick="state.filter='pending';render()" class="${state.filter==='pending'?'active':''}">На рассмотрении</button>
+        <button onclick="state.filter='approved';render()" class="${state.filter==='approved'?'active':''}">Принято</button>
+        <button onclick="state.filter='rejected';render()" class="${state.filter==='rejected'?'active':''}">Отклонено</button>
+        <label style="margin-left:auto;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;"><input type="checkbox" onchange="if(this.checked)state.selectedIds=state.ideas.map(x=>x.id);else state.selectedIds=[];render()"> Выбрать все</label>
+      </div>
+      ${bulk} ${listHtml}
+    </div>`;
+}
+
+function toggleSelect(id) { state.selectedIds.includes(id) ? state.selectedIds = state.selectedIds.filter(x=>x!==id) : state.selectedIds.push(id); render(); }
+function saveIdea(id) { apiAction({action:'save_idea',id:id,status:document.getElementById('st-'+id).value,comment:document.getElementById('cm-'+id).value.trim(),adminNote:document.getElementById('note-'+id).value.trim()}); }
+function bulkAction(act) { if(act==='bulk_delete'&&!confirm('Удалить выбранные?'))return; apiAction({action:act,ids:state.selectedIds}); state.selectedIds=[]; }
+
+function viewGdz() {
+  let list = state.gdz.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  if(state.gdzFilter!=='all') list = list.filter(r=>(r.status||'new')===state.gdzFilter);
+
+  const listHtml = list.length ? list.map(r=>`
+    <div class="idea">
+      <div class="idea-head">
+        <div class="idea-title" style="padding-left:0">${esc(shortQ(r.question))}</div>
+        <div style="display:flex;gap:8px;"><span class="badge ${r.status==='answered'?'approved':'pending'}">${r.status==='answered'?'Проверен':'Новый'}</span><button class="btn btn-danger btn-sm" style="padding:2px 8px;" onclick="apiAction({action:'del_gdz',id:'${r.id}'})">✕</button></div>
+      </div>
+      <div class="idea-text" style="padding-left:0">${esc(r.question)}</div>
+      ${r.image?`<img src="${r.image}" style="max-width:100%;max-height:200px;border-radius:10px;margin-top:10px;cursor:pointer;" onclick="showImg('${r.image}')">`:''}
+      <div class="idea-meta" style="padding-left:0">👤 ${esc(r.author)} · 🕒 ${fmtDate(r.createdAt)}</div>
+      <div class="comment" style="margin-left:0"><b>Бот:</b> ${esc(r.botAnswer)}</div>
+      ${r.adminAnswer?`<div class="comment" style="border-color:#10b981;margin-left:0"><b style="color:#047857">Ответ ученику:</b> ${esc(r.adminAnswer)}</div>`:''}
+      <div class="admin-controls" style="padding-left:0">
+        <select id="st-${r.id}"><option value="new" ${r.status==='new'?'selected':''}>Новый</option><option value="answered" ${r.status==='answered'?'selected':''}>Проверен</option></select>
+        <textarea id="an-${r.id}" placeholder="Ответ...">${esc(r.adminAnswer||'')}</textarea>
+        <button class="btn btn-primary btn-sm" onclick="apiAction({action:'save_gdz',id:'${r.id}',status:document.getElementById('st-${r.id}').value,adminAnswer:document.getElementById('an-${r.id}').value.trim()})">Сохранить</button>
+      </div>
+    </div>
+  `).join('') : '<div class="empty">Запросов нет</div>';
+
+  return `
+    <div class="card">
+      <h2 class="h2">🧠 Запросы ГДЗ</h2>
+      <div class="filters"><button onclick="state.gdzFilter='all';render()">Все</button><button onclick="state.gdzFilter='new';render()">Новые</button><button onclick="state.gdzFilter='answered';render()">Проверенные</button></div>
+      ${listHtml}
+    </div>`;
+}
+
+function viewAdmins() {
+  return `
+    <div class="card">
+      <h2 class="h2">➕ Новый админ</h2>
+      <form onsubmit="event.preventDefault();apiAction({action:'add_admin',name:document.getElementById('an').value,login:document.getElementById('al').value,password:document.getElementById('ap').value})">
+        <div class="grid-3"><input id="an" placeholder="Имя"><input id="al" placeholder="Логин" required><input id="ap" placeholder="Пароль" required></div>
+        <button class="btn btn-primary" style="margin-top:10px;">Создать</button>
+      </form>
+    </div>
+    <div class="card"><h2 class="h2">Администраторы</h2>${state.admins.map(u=>`<div class="user-row"><div class="avatar">${esc(u.name||u.login)[0]}</div><div style="flex:1"><b>${esc(u.name||u.login)}</b><div class="user-meta">${esc(u.login)}</div></div><button class="btn btn-danger btn-sm" onclick="apiAction({action:'del_admin',login:'${u.login}'})">Удалить</button></div>`).join('')}</div>`;
+}
+
+function viewParticipants() {
+  return `<div class="card"><h2 class="h2">👤 Участники</h2>${Object.keys(state.participants).sort().map(n=>`<div class="user-row"><div class="avatar">${n[0]}</div><div style="flex:1"><b>${esc(n)}</b><div class="user-meta">${state.participants[n].role==='creator'?'Создатель':'Ученик'}</div></div><button class="btn btn-ghost btn-sm" onclick="apiAction({action:'set_role',name:'${n}',role:'${state.participants[n].role==='creator'?'student':'creator'}'})">${state.participants[n].role==='creator'?'Забрать':'Выдать создателя'}</button></div>`).join('')}</div>`;
+}
+
+function viewBroadcasts() {
+  return `
+    <div class="card">
+      <h2 class="h2">📢 Рассылка</h2>
+      <form onsubmit="event.preventDefault();apiAction({action:'add_broadcast',text:document.getElementById('bt').value});document.getElementById('bt').value=''">
+        <textarea id="bt" placeholder="Текст..." required style="min-height:80px;"></textarea>
+        <button class="btn btn-primary" style="margin-top:10px;">Отправить</button>
+      </form>
+    </div>
+    <div class="card"><h2 class="h2">История</h2>${state.broadcasts.map(b=>`<div class="idea"><div class="idea-text" style="padding:0">${esc(b.text)}</div><div class="idea-meta" style="padding:0">${fmtDate(b.createdAt)}</div><button class="btn btn-danger btn-sm" style="margin-top:10px;" onclick="apiAction({action:'del_broadcast',id:'${b.id}'})">Удалить</button></div>`).join('')}</div>`;
+}
+
+function viewLogs() {
+  return `<div class="card"><h2 class="h2">📜 Логи</h2>${state.adminLogs.map(l=>`<div class="log-row"><div><b>${esc(l.admin)}</b> — ${esc(l.action)}</div><div style="font-size:12px;color:#6b7280;">${fmtDate(l.time)}</div></div>`).join('')}</div>`;
+}
+
+function viewAccess() {
+  const s = state.settings;
+  const sw = (id, t, d, c) => `<label class="switch-row"><div style="flex:1"><b>${t}</b><div style="font-size:12.5px;color:#6b7280;">${d}</div></div><span class="switch"><input type="checkbox" id="${id}" ${c?'checked':''}><span class="sl"></span></span></label>`;
+  
+  const isRoot = state.me.login === 'Maksim';
+  let adminPermsHtml = '';
+  
+  if (isRoot) {
+    const otherAdmins = state.admins.filter(a => a.login !== 'Maksim');
     let listHtml = '';
-    if(otherAdmins.length === 0){
-      listHtml = '<p class="muted-note">Пока нет других администраторов. Создай их во вкладке «Администраторы».</p>';
+    if (otherAdmins.length === 0) {
+      listHtml = '<p style="font-size:13px;color:#6b7280;">Пока нет других администраторов.</p>';
     } else {
       listHtml = otherAdmins.map(a => {
         const p = a.perms || DEFAULT_PERMS;
-        const displayName = a.name || a.login;
-        const initial = displayName.charAt(0).toUpperCase();
-        return '<div class="perm-card">' +
-          '<div class="perm-header">' +
-            '<div class="avatar" style="width:24px;height:24px;font-size:11px;">' + esc(initial) + '</div>' +
-            esc(displayName) + ' <span style="font-size:12px;color:var(--muted);font-weight:600">(' + esc(a.login) + ')</span>' +
-          '</div>' +
-          '<div class="perm-grid">' +
-            '<label class="perm-label">' +
-              '<input type="checkbox" data-perm-user="'+esc(a.login)+'" data-perm="canGdz" '+(p.canGdz?'checked':'')+'>' +
-              '<span>Доступ к ГДЗ</span>' +
-            '</label>' +
-            '<label class="perm-label">' +
-              '<input type="checkbox" data-perm-user="'+esc(a.login)+'" data-perm="canEditGdz" '+(p.canEditGdz?'checked':'')+'>' +
-              '<span>Может менять ответы</span>' +
-            '</label>' +
-            '<label class="perm-label">' +
-              '<input type="checkbox" data-perm-user="'+esc(a.login)+'" data-perm="canUsers" '+(p.canUsers?'checked':'')+'>' +
-              '<span>Управление админами</span>' +
-            '</label>' +
-          '</div>' +
-        '</div>';
+        return `<div style="background:#f8fafc;border:1px solid #e5e7f0;padding:15px;border-radius:12px;margin-bottom:10px;">
+          <div style="font-weight:800;margin-bottom:10px;font-size:14px;">${esc(a.name||a.login)} <span style="font-weight:600;color:#6b7280;">(${esc(a.login)})</span></div>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:6px;">
+            <input type="checkbox" data-perm-user="${esc(a.login)}" data-perm="canGdz" ${p.canGdz?'checked':''} onchange="updatePerm(this)"> Доступ к ГДЗ
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:6px;">
+            <input type="checkbox" data-perm-user="${esc(a.login)}" data-perm="canEditGdz" ${p.canEditGdz?'checked':''} onchange="updatePerm(this)"> Может менять ответы в ГДЗ
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;">
+            <input type="checkbox" data-perm-user="${esc(a.login)}" data-perm="canUsers" ${p.canUsers?'checked':''} onchange="updatePerm(this)"> Управление админами
+          </label>
+        </div>`;
       }).join('');
     }
-
-    adminPermsHtml = 
-      '<div class="card" style="margin-top:20px">' +
-        '<h2 class="h2">🛡️ Права других администраторов</h2>' +
-        '<p class="sub">Укажи, что разрешено конкретному администратору. Главный админ Maksim всегда имеет полный доступ.</p>' +
-        listHtml +
-      '</div>';
+    adminPermsHtml = `
+      <div class="card" style="margin-top:20px;">
+        <h2 class="h2">🛡️ Права других администраторов</h2>
+        <p class="sub">Укажи, что разрешено конкретному администратору.</p>
+        ${listHtml}
+      </div>`;
   }
-
-  return '<div class="card">' +
-    '<h2 class="h2">🔐 Доступ для учеников</h2>' +
-    '<p class="sub">Что видят и могут ученики на своём сайте. Изменения применяются сразу.</p>' +
-    '<form id="settings-form">' +
-      switchRow('s-ideas', 'Раздел «Идеи»', 'Ученики могут предлагать идеи', s.ideasEnabled !== false) +
-      switchRow('s-gdz', 'Раздел «Нейро-ГДЗ»', 'Ученики могут отправлять задания боту', s.gdzEnabled !== false) +
-      switchRow('s-photo', 'Загрузка фото в ГДЗ-боте', 'Разрешить прикреплять фото задания', s.photoEnabled !== false) +
-      switchRow('s-list', 'Показывать ленту всех идей', 'Если выключить — ученик видит только форму', s.showIdeasList !== false) +
-      switchRow('s-require', 'Обязательное имя', 'Без имени нельзя отправить идею или задание', s.requireName !== false) +
-      '<div class="grid-2" style="margin-top:18px">' +
-        '<div class="field"><label for="s-maxtext">Максимальная длина текста</label><input id="s-maxtext" type="number" min="100" max="5000" value="' + (Number(s.maxText) || 1200) + '"></div>' +
-        '<div class="field"><label for="s-bottitle">Название бота</label><input id="s-bottitle" maxlength="40" value="' + esc(s.botTitle || 'Нейро-ГДЗ') + '"></div>' +
-      '</div>' +
-      '<div class="field"><label for="s-notice">Объявление для учеников</label><textarea id="s-notice" maxlength="300" placeholder="Например: приём идей до пятницы!">' + esc(s.notice || '') + '</textarea></div>' +
-      '<button class="btn btn-primary" type="submit">Сохранить настройки</button>' +
-    '</form>' +
-  '</div>' + adminPermsHtml;
+  
+  return `
+    <div class="card">
+      <h2 class="h2">🔐 Доступ для учеников</h2>
+      <form onsubmit="event.preventDefault();apiAction({action:'save_settings',settings:{ideasEnabled:document.getElementById('s1').checked,gdzEnabled:document.getElementById('s2').checked,photoEnabled:document.getElementById('s3').checked,showIdeasList:document.getElementById('s4').checked,requireName:document.getElementById('s5').checked,maintenanceMode:document.getElementById('sm').checked,maintenanceText:document.getElementById('smt').value,maxText:document.getElementById('smax').value,botTitle:document.getElementById('sbt').value,notice:document.getElementById('sn').value}})">
+        ${sw('s1','Идеи','Ученики могут писать',s.ideasEnabled!==false)}
+        ${sw('s2','Нейро-ГДЗ','Ученики могут спрашивать',s.gdzEnabled!==false)}
+        ${sw('s3','Фото','Разрешить фото',s.photoEnabled!==false)}
+        ${sw('s4','Лента идей','Показывать ленту',s.showIdeasList!==false)}
+        ${sw('s5','Имя','Требовать имя',s.requireName!==false)}
+        <div style="border:1px dashed #fca5a5;padding:15px;border-radius:14px;margin-top:20px;">
+          <div style="color:#b91c1c;font-weight:800;margin-bottom:10px;">🛠 Техработы</div>
+          ${sw('sm','Закрыть сайт','Заглушка',s.maintenanceMode===true)}
+          <input id="smt" placeholder="Текст заглушки" value="${esc(s.maintenanceText||'')}" style="margin-top:10px;">
+        </div>
+        <div class="grid-2" style="margin-top:20px;">
+          <div><label>Лимит текста</label><input id="smax" type="number" value="${s.maxText||1200}"></div>
+          <div><label>Имя бота</label><input id="sbt" value="${esc(s.botTitle||'Нейро-ГДЗ')}"></div>
+        </div>
+        <div style="margin-top:15px;"><label>Объявление</label><textarea id="sn">${esc(s.notice||'')}</textarea></div>
+        <button class="btn btn-primary" style="margin-top:20px;">Сохранить</button>
+      </form>
+    </div>
+    ${adminPermsHtml}`;
 }
 
-function emptyHtml(t, d){
-  return '<div class="empty"><div class="em">📭</div><div class="t">' + t + '</div><div class="d">' + d + '</div></div>';
-}
-
-async function apiAction(actionData) {
+async function updatePerm(el) {
+  const login = el.dataset.permUser;
+  const perm = el.dataset.perm;
+  const value = el.checked;
   await fetch('/api/admin/action', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(actionData)
+    body: JSON.stringify({ action: 'update_perms', login, perm, value })
   });
+  toast('Права обновлены');
   fetchData();
 }
 
-document.addEventListener('click', function(e){
-  const t = e.target.closest('[data-view],[data-filter],[data-gdz-filter],[data-action]');
-  if(!t) return;
-
-  if(t.dataset.view){ state.view = t.dataset.view; render(); return; }
-  if(t.dataset.filter){ state.filter = t.dataset.filter; render(); return; }
-  if(t.dataset.gdzFilter){ state.gdzFilter = t.dataset.gdzFilter; render(); return; }
-
-  const action = t.dataset.action;
-
-  if(action === 'logout'){
-    fetch('/api/logout', { method: 'POST' }).then(() => fetchData());
-    return;
-  }
-
-  if(action === 'refresh'){ fetchData(); toast('Обновлено'); return; }
-
-  if(action === 'set-role'){
-    apiAction({ action: 'set_role', name: t.dataset.name, role: t.dataset.role });
-    toast('Роль обновлена');
-    return;
-  }
-
-  if(action === 'save-idea'){
-    const card = t.closest('.idea');
-    apiAction({
-      action: 'save_idea',
-      id: t.dataset.id,
-      status: card.querySelector('[data-role="status"]').value,
-      comment: card.querySelector('[data-role="comment"]').value.trim()
-    });
-    toast('Изменения сохранены');
-    return;
-  }
-
-  if(action === 'del-idea'){
-    if(!confirm('Удалить идею?')) return;
-    apiAction({ action: 'del_idea', id: t.dataset.id });
-    toast('Идея удалена');
-    return;
-  }
-
-  if(action === 'save-gdz'){
-    if(!(state.me.perms && state.me.perms.canEditGdz)){ toast('У вас нет прав на это'); return; }
-    const card = t.closest('.idea');
-    apiAction({
-      action: 'save_gdz',
-      id: t.dataset.id,
-      status: card.querySelector('[data-role="gdz-status"]').value,
-      adminAnswer: card.querySelector('[data-role="gdz-answer"]').value.trim()
-    });
-    toast('Ответ сохранён');
-    return;
-  }
-
-  if(action === 'del-gdz'){
-    if(!(state.me.perms && state.me.perms.canEditGdz)){ toast('У вас нет прав на это'); return; }
-    if(!confirm('Удалить этот запрос?')) return;
-    apiAction({ action: 'del_gdz', id: t.dataset.id });
-    toast('Запрос удалён');
-    return;
-  }
-
-  if(action === 'zoom'){
-    const rec = state.gdz.find(function(r){ return r.id === t.dataset.id; });
-    if(!rec || !rec.image) return;
-    const modal = document.createElement('div');
-    modal.className = 'modal'; modal.innerHTML = '<img src="' + rec.image + '" alt="фото">';
-    modal.addEventListener('click', function(){ modal.remove(); });
-    document.body.appendChild(modal);
-    return;
-  }
-
-  if(action === 'del-admin'){
-    if(state.me.login !== 'Maksim' && !(state.me.perms && state.me.perms.canUsers)){ toast('У вас нет прав на это'); return; }
-    const login = t.dataset.login;
-    if(login === 'Maksim'){ toast('Главного администратора удалить нельзя'); return; }
-    if(login === state.me.login){ toast('Нельзя удалить самого себя'); return; }
-    if(!confirm('Удалить администратора «' + login + '»?')) return;
-    apiAction({ action: 'del_admin', login: login });
-    toast('Администратор удалён');
-    return;
-  }
-});
-
-document.addEventListener('submit', function(e){
-  const f = e.target;
-
-  if(f.id === 'login-form'){
-    e.preventDefault();
-    fetch('/api/login', { 
-      method:'POST', 
-      headers:{'Content-Type':'application/json'}, 
-      body:JSON.stringify({ login: document.getElementById('login').value, password: document.getElementById('pass').value }) 
-    }).then(res => res.json()).then(r => {
-      if(r.status === 'ok') { fetchData(); toast('Добро пожаловать!'); }
-      else toast(r.message || 'Ошибка');
-    });
-    return;
-  }
-
-  if(f.id === 'admin-form'){
-    if(state.me.login !== 'Maksim' && !(state.me.perms && state.me.perms.canUsers)){ toast('У вас нет прав на это'); return; }
-    e.preventDefault();
-    const adminName = document.getElementById('new-name').value.trim();
-    const login = document.getElementById('new-login').value.trim();
-    const pass = document.getElementById('new-pass').value;
-    
-    if(login.length < 3 || pass.length < 4){ toast('Слишком короткий логин или пароль'); return; }
-    if(state.admins.some(function(a){ return a.login.toLowerCase() === login.toLowerCase(); })){ toast('Такой логин уже есть'); return; }
-    
-    apiAction({ action: 'add_admin', name: adminName, login: login, password: pass });
-    toast('Администратор создан');
-    return;
-  }
-
-  if(f.id === 'settings-form'){
-    e.preventDefault();
-    const newSettings = {
-      ideasEnabled: document.getElementById('s-ideas').checked,
-      gdzEnabled: document.getElementById('s-gdz').checked,
-      photoEnabled: document.getElementById('s-photo').checked,
-      showIdeasList: document.getElementById('s-list').checked,
-      requireName: document.getElementById('s-require').checked,
-      maxText: Math.max(100, Math.min(5000, parseInt(document.getElementById('s-maxtext').value,10) || 1200)),
-      botTitle: document.getElementById('s-bottitle').value.trim() || 'Нейро-ГДЗ',
-      notice: document.getElementById('s-notice').value.trim()
-    };
-    apiAction({ action: 'save_settings', settings: newSettings });
-    toast('Настройки сохранены');
-    return;
-  }
-});
-
-document.addEventListener('change', function(e){
-  if(e.target.matches('[data-perm-user]')){
-    if(state.me.login !== 'Maksim') return;
-    apiAction({
-      action: 'update_perms',
-      login: e.target.dataset.permUser,
-      perm: e.target.dataset.perm,
-      value: e.target.checked
-    });
-    toast('Права обновлены');
-  }
-});
-
+async function apiAction(data) { await fetch('/api/admin/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); fetchData(); }
+function showImg(src) { const m=document.createElement('div'); m.className='modal'; m.innerHTML=`<img src="${src}">`; m.onclick=()=>m.remove(); document.body.appendChild(m); }
 fetchData();
-
-})();
 </script>
 </body>
 </html>
