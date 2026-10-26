@@ -11,7 +11,7 @@
   body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6fb;color:var(--text);min-height:100vh}
   .logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:20px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff}
   .login-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 20px;gap:26px}
-  .card{background:#fff;border:1px solid var(--border);border-radius:22px;padding:26px;box-shadow:var(--shadow);margin-bottom:18px;animation:pop .35s ease}
+  .card{background:#fff;border:1px solid var(--border);border-radius:22px;padding:26px;box-shadow:var(--shadow);margin-bottom:18px;}
   .card.narrow{width:100%;max-width:430px}
   h1{font-size:21px;margin-bottom:8px} .lead{color:var(--muted);font-size:14px;line-height:1.55;margin-bottom:22px}
   .field{margin-bottom:15px} label{display:block;font-size:12.5px;font-weight:800;color:var(--muted);margin-bottom:7px}
@@ -32,89 +32,41 @@
   .nav button.active{background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border-color:transparent}
   .nav button.refresh{margin-left:auto;color:#4338ca;background:#eef2ff;border-color:#dbe1ff}
   .h2{font-size:17px;font-weight:800;display:flex;align-items:center;gap:9px;margin-bottom:6px}
-  .count{font-size:12px;font-weight:800;background:#eef2ff;color:#4338ca;padding:3px 10px;border-radius:999px}
   .sub{font-size:13.5px;color:var(--muted);margin-bottom:20px}
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}
-  .stat{background:#fff;border:1px solid var(--border);border-radius:15px;padding:17px 19px;box-shadow:var(--shadow)}
-  .stat .num{font-size:27px;font-weight:800;line-height:1} .stat .lbl{font-size:11.5px;color:var(--muted);font-weight:700;margin-top:6px}
-  .chart-wrap { display: flex; align-items: flex-end; gap: 10px; height: 150px; margin-top: 15px; padding-bottom: 25px; border-bottom: 2px solid var(--border); position: relative; }
-  .chart-bar { flex: 1; background: linear-gradient(180deg, #818cf8, #4f46e5); border-radius: 6px 6px 0 0; position: relative; min-height: 4px; }
-  .chart-val { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-size: 12px; font-weight: 800; color: var(--primary); }
-  .chart-label { position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); font-size: 11px; font-weight: 700; color: var(--muted); white-space: nowrap; }
-  .idea{background:#fff;border:1px solid var(--border);border-radius:15px;padding:18px 19px;margin-bottom:13px;box-shadow:0 4px 14px rgba(79,70,229,.05);position:relative}
-  .idea-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:9px}
-  .idea-title{font-weight:800;font-size:15.5px;padding-left:28px}
-  .idea-text{color:#3f3d56;font-size:14px;white-space:pre-wrap;padding-left:28px}
-  .idea-meta{font-size:12px;color:var(--muted);margin-top:12px;font-weight:600;padding-left:28px}
-  .idea-checkbox{position:absolute;top:20px;left:18px;width:18px;height:18px;cursor:pointer;accent-color:var(--primary)}
-  .badge{font-size:11.5px;font-weight:800;padding:5px 11px;border-radius:999px}
-  .badge.pending{background:#fef3c7;color:#b45309} .badge.approved{background:#d1fae5;color:#047857} .badge.rejected{background:#fee2e2;color:#b91c1c}
-  .badge.creator{background:#fef08a;color:#854d0e}
-  .admin-note-box{background:#fff7ed;border:1px dashed #fdba74;padding:11px 15px;border-radius:9px;margin-top:13px;margin-left:28px}
-  .admin-note-box label{color:#c2410c;margin-bottom:4px;display:block;font-size:11px;font-weight:800}
-  .admin-note-box textarea{background:transparent;border:none;padding:0;font-size:13px;resize:none;min-height:36px;color:#9a3412;outline:none;box-shadow:none;}
-  .comment{background:#f8f9ff;border-left:3px solid var(--primary);padding:11px 15px;border-radius:9px;font-size:13px;margin-top:13px;color:#3f3d56;margin-left:28px}
-  .admin-controls{display:grid;grid-template-columns:180px 1fr auto;gap:10px;margin-top:15px;padding-top:15px;border-top:1px dashed var(--border);padding-left:28px}
-  .admin-controls textarea{min-height:46px;height:46px;padding:11px 13px;font-size:13.5px}
-  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-  .filters button{border:1px solid var(--border);background:#fff;padding:8px 15px;border-radius:999px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer}
-  .filters button.active{background:#eef2ff;color:#4338ca;border-color:#c7d2fe}
-  .bulk-actions{background:#eef2ff;border:1px solid #c7d2fe;padding:12px 18px;border-radius:14px;margin-bottom:15px;display:flex;align-items:center;gap:15px;font-weight:700}
+  .card-inner{background:#fff;border:1px solid var(--border);border-radius:15px;padding:17px 19px;margin-bottom:13px;}
   .user-row{display:flex;align-items:center;gap:13px;padding:13px 15px;border-radius:13px;border:1px solid var(--border);margin-bottom:10px;background:#fff}
   .user-row .avatar{width:36px;height:36px;font-size:14px}
   .user-meta{font-size:12px;color:var(--muted);margin-top:3px;font-weight:600}
-  .role-badge{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:#fef3c7;color:#b45309}
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .grid-3{display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:14px}
-  .empty{text-align:center;padding:44px 20px;color:var(--muted)} .empty .em{font-size:44px;margin-bottom:12px;}
   .switch-row{display:flex;align-items:center;gap:16px;padding:14px 16px;border:1px solid var(--border);border-radius:14px;margin-bottom:10px;cursor:pointer;background:#fff}
   .switch{position:relative;width:46px;height:26px;flex:none;} .switch input{opacity:0;width:0;height:0;position:absolute}
   .switch .sl{position:absolute;inset:0;background:#dfe3ef;border-radius:999px;transition:.25s;cursor:pointer}
   .switch .sl::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.25s;}
   .switch input:checked + .sl{background:linear-gradient(135deg,#6366f1,#4f46e5)} .switch input:checked + .sl::after{transform:translateX(20px)}
-  .log-row { background: #fff; padding: 12px 18px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 10px; display: flex; justify-content: space-between; font-size: 14px; }
   #toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(140%);background:#1e1b2e;color:#fff;padding:13px 22px;border-radius:13px;font-size:14px;font-weight:700;transition:transform .3s;}
   #toast.show{transform:translateX(-50%) translateY(0)}
-  .modal{position:fixed;inset:0;background:rgba(15,23,42,.78);display:grid;place-items:center;padding:24px;z-index:200;cursor:zoom-out}
-  .modal img{max-width:100%;max-height:100%;border-radius:14px}
-  @keyframes pop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  
-  .fab { position: fixed; bottom: 20px; right: 20px; background: linear-gradient(135deg, #f59e0b, #ea580c); color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: 800; box-shadow: 0 4px 15px rgba(234,88,12,0.4); z-index: 1000; transition: 0.3s; display: flex; align-items: center; gap: 8px; font-size: 15px; border: 2px solid #fff; }
-  .fab:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(234,88,12,0.6); }
 </style>
 </head>
 <body>
 <div id="app"><div style="text-align:center;padding:100px;font-size:20px;font-weight:800;color:#4f46e5;">Загрузка панели...</div></div>
 <div id="toast"></div>
-
-<a href="http://de-bots5.h1cloud.net:25191/" class="fab">🚀 На основной сайт</a>
-
 <script>
 window.onerror = function(msg) { document.body.innerHTML = '<div style="color:red;padding:50px;font-size:20px;text-align:center;"><b>Ошибка:</b><br>'+msg+'</div>'; };
 
-const DEFAULT_PERMS = { canGdz: true, canEditGdz: true, canUsers: true };
-const STATUS = { pending:{ label:'На рассмотрении', cls:'pending' }, approved:{ label:'Принято', cls:'approved' }, rejected:{ label:'Отклонено', cls:'rejected' } };
 let state = { ideas: [], gdz: [], admins: [], participants: {}, broadcasts: [], adminLogs: [], settings: {}, me: null, view: 'ideas', filter: 'all', gdzFilter: 'all', selectedIds: [] };
-
 const esc = s => String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmtDate = ts => new Date(ts).toLocaleString('ru-RU', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
 const toast = msg => { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 2500); };
-const titleOf = i => (i.text || '').split('\n')[0].slice(0, 80) || 'Без названия';
-const shortQ = q => (q || '').split('\n')[0].slice(0, 80) || 'Задание';
 
 async function fetchData() {
-  try {
-    const res = await fetch('/api/state');
-    if(!res.ok) throw new Error('Ошибка сервера: ' + res.status);
-    const db = await res.json();
-    state.ideas = db.ideas || []; state.gdz = db.gdz || []; state.admins = db.admins || [];
-    state.participants = db.participants || {}; state.broadcasts = db.broadcasts || [];
-    state.adminLogs = db.adminLogs || []; state.settings = db.settings || {};
-    state.me = db.currentAdmin ? state.admins.find(a => a.login === db.currentAdmin) : null;
-    render();
-  } catch(e) {
-    document.getElementById('app').innerHTML = `<div style="text-align:center;padding:100px;font-family:sans-serif;"><h2 style="color:red;">Ошибка загрузки</h2><p>${e.message}</p><button onclick="location.reload()" style="padding:10px 20px;margin-top:20px;cursor:pointer;">Обновить</button></div>`;
-  }
+  const res = await fetch('/api/state');
+  const db = await res.json();
+  state.ideas = db.ideas || []; state.gdz = db.gdz || []; state.admins = db.admins || [];
+  state.participants = db.participants || {}; state.broadcasts = db.broadcasts || [];
+  state.adminLogs = db.adminLogs || []; state.settings = db.settings || {};
+  state.me = db.currentAdmin ? state.admins.find(a => a.login === db.currentAdmin) : null;
+  render();
 }
 
 function render() {
@@ -142,18 +94,13 @@ async function doLogin() {
 }
 
 function renderDash() {
-  const p = state.me.perms || DEFAULT_PERMS;
   let nav = `<button data-v="ideas" class="${state.view==='ideas'?'active':''}">💡 Идеи</button>`;
-  if(p.canGdz) nav += `<button data-v="gdz" class="${state.view==='gdz'?'active':''}">🧠 ГДЗ</button>`;
-  if(p.canUsers) nav += `<button data-v="admins" class="${state.view==='admins'?'active':''}">👥 Админы</button><button data-v="participants" class="${state.view==='participants'?'active':''}">👤 Участники</button>`;
-  nav += `<button data-v="broadcasts" class="${state.view==='broadcasts'?'active':''}">📢 Рассылки</button><button data-v="logs" class="${state.view==='logs'?'active':''}">📜 Логи</button><button data-v="access" class="${state.view==='access'?'active':''}">🔐 Доступ</button><button class="refresh" onclick="fetchData()">↻ Обновить</button>`;
+  nav += `<button data-v="admins" class="${state.view==='admins'?'active':''}">👥 Админы</button>`;
+  nav += `<button data-v="access" class="${state.view==='access'?'active':''}">🔐 Доступ</button>`;
+  nav += `<button class="refresh" onclick="fetchData()">↻ Обновить</button>`;
 
   let content = '';
-  if(state.view==='gdz') content = viewGdz();
-  else if(state.view==='admins') content = viewAdmins();
-  else if(state.view==='participants') content = viewParticipants();
-  else if(state.view==='broadcasts') content = viewBroadcasts();
-  else if(state.view==='logs') content = viewLogs();
+  if(state.view==='admins') content = viewAdmins();
   else if(state.view==='access') content = viewAccess();
   else content = viewIdeas();
 
@@ -176,90 +123,7 @@ function renderDash() {
 async function doLogout() { await fetch('/api/logout',{method:'POST'}); fetchData(); }
 
 function viewIdeas() {
-  let list = state.ideas.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-  if(state.filter!=='all') list = list.filter(i=>i.status===state.filter);
-  
-  const days = {}; for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days[d.toLocaleDateString('ru-RU')]=0;}
-  state.ideas.forEach(i=>{const d=new Date(i.createdAt).toLocaleDateString('ru-RU');if(days[d]!==undefined)days[d]++;});
-  const max = Math.max(...Object.values(days), 1);
-  const bars = Object.keys(days).map(date=>`<div class="chart-bar" style="height:${Math.round(days[date]/max*100)}%"><div class="chart-val">${days[date]}</div><div class="chart-label">${date.split('.')[0]}.${date.split('.')[1]}</div></div>`).join('');
-
-  const bulk = state.selectedIds.length ? `<div class="bulk-actions">Выбрано: <span>${state.selectedIds.length}</span><button class="btn btn-primary btn-sm" onclick="bulkAction('bulk_approve')">Принять</button><button class="btn btn-danger btn-sm" onclick="bulkAction('bulk_delete')">Удалить</button><button class="btn btn-ghost btn-sm" onclick="state.selectedIds=[];render()">Отмена</button></div>` : '';
-
-  const listHtml = list.length ? list.map(i=>`
-    <div class="idea">
-      <input type="checkbox" class="idea-checkbox" ${state.selectedIds.includes(i.id)?'checked':''} onchange="toggleSelect('${i.id}')">
-      <div class="idea-head">
-        <div class="idea-title">${esc(titleOf(i))}</div>
-        <div style="display:flex;gap:8px;">
-          <span class="badge ${STATUS[i.status].cls}">${STATUS[i.status].label}</span>
-          <button class="btn btn-danger btn-sm" style="padding:2px 8px;" onclick="apiAction({action:'del_idea',id:'${i.id}'})">✕</button>
-        </div>
-      </div>
-      <div class="idea-text">${esc(i.text)}</div>
-      ${i.image?`<img src="${i.image}" style="max-width:100%;max-height:200px;border-radius:10px;margin:10px 0 0 28px;cursor:pointer;" onclick="showImg('${i.image}')">`:''}
-      <div class="idea-meta">👤 ${esc(i.author)} · 🕒 ${fmtDate(i.createdAt)} · 👍 ${(i.likes||[]).length} · 👎 ${(i.dislikes||[]).length}</div>
-      
-      <div class="admin-note-box"><label>Скрытая заметка</label><textarea id="note-${i.id}">${esc(i.adminNote||'')}</textarea></div>
-      ${i.comment?`<div class="comment"><b>Ответ:</b> ${esc(i.comment)}</div>`:''}
-      
-      <div class="admin-controls">
-        <select id="st-${i.id}"><option value="pending" ${i.status==='pending'?'selected':''}>На рассмотрении</option><option value="approved" ${i.status==='approved'?'selected':''}>Принято</option><option value="rejected" ${i.status==='rejected'?'selected':''}>Отклонено</option></select>
-        <textarea id="cm-${i.id}" placeholder="Видимый ответ...">${esc(i.comment||'')}</textarea>
-        <button class="btn btn-primary btn-sm" onclick="saveIdea('${i.id}')">Сохранить</button>
-      </div>
-    </div>
-  `).join('') : '<div class="empty">Идей пока нет</div>';
-
-  return `
-    <div class="stats"><div class="stat"><div class="num">${state.ideas.length}</div><div class="lbl">Всего идей</div></div><div class="stat"><div class="num" style="color:#b45309">${state.ideas.filter(i=>i.status==='pending').length}</div><div class="lbl">В ожидании</div></div></div>
-    <div class="card" style="padding:18px 24px;"><h3 style="font-size:14px;font-weight:800;margin-bottom:15px;color:#6b7280;">Статистика за 7 дней</h3><div class="chart-wrap">${bars}</div></div>
-    <div class="card">
-      <h2 class="h2">💡 Идеи <span class="count">${state.ideas.length}</span></h2>
-      <div class="filters">
-        <button onclick="state.filter='all';render()" class="${state.filter==='all'?'active':''}">Все</button>
-        <button onclick="state.filter='pending';render()" class="${state.filter==='pending'?'active':''}">На рассмотрении</button>
-        <button onclick="state.filter='approved';render()" class="${state.filter==='approved'?'active':''}">Принято</button>
-        <button onclick="state.filter='rejected';render()" class="${state.filter==='rejected'?'active':''}">Отклонено</button>
-        <label style="margin-left:auto;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;"><input type="checkbox" onchange="if(this.checked)state.selectedIds=state.ideas.map(x=>x.id);else state.selectedIds=[];render()"> Выбрать все</label>
-      </div>
-      ${bulk} ${listHtml}
-    </div>`;
-}
-
-function toggleSelect(id) { state.selectedIds.includes(id) ? state.selectedIds = state.selectedIds.filter(x=>x!==id) : state.selectedIds.push(id); render(); }
-function saveIdea(id) { apiAction({action:'save_idea',id:id,status:document.getElementById('st-'+id).value,comment:document.getElementById('cm-'+id).value.trim(),adminNote:document.getElementById('note-'+id).value.trim()}); }
-function bulkAction(act) { if(act==='bulk_delete'&&!confirm('Удалить выбранные?'))return; apiAction({action:act,ids:state.selectedIds}); state.selectedIds=[]; }
-
-function viewGdz() {
-  let list = state.gdz.slice().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
-  if(state.gdzFilter!=='all') list = list.filter(r=>(r.status||'new')===state.gdzFilter);
-
-  const listHtml = list.length ? list.map(r=>`
-    <div class="idea">
-      <div class="idea-head">
-        <div class="idea-title" style="padding-left:0">${esc(shortQ(r.question))}</div>
-        <div style="display:flex;gap:8px;"><span class="badge ${r.status==='answered'?'approved':'pending'}">${r.status==='answered'?'Проверен':'Новый'}</span><button class="btn btn-danger btn-sm" style="padding:2px 8px;" onclick="apiAction({action:'del_gdz',id:'${r.id}'})">✕</button></div>
-      </div>
-      <div class="idea-text" style="padding-left:0">${esc(r.question)}</div>
-      ${r.image?`<img src="${r.image}" style="max-width:100%;max-height:200px;border-radius:10px;margin-top:10px;cursor:pointer;" onclick="showImg('${r.image}')">`:''}
-      <div class="idea-meta" style="padding-left:0">👤 ${esc(r.author)} · 🕒 ${fmtDate(r.createdAt)}</div>
-      <div class="comment" style="margin-left:0"><b>Бот:</b> ${esc(r.botAnswer)}</div>
-      ${r.adminAnswer?`<div class="comment" style="border-color:#10b981;margin-left:0"><b style="color:#047857">Ответ ученику:</b> ${esc(r.adminAnswer)}</div>`:''}
-      <div class="admin-controls" style="padding-left:0">
-        <select id="st-${r.id}"><option value="new" ${r.status==='new'?'selected':''}>Новый</option><option value="answered" ${r.status==='answered'?'selected':''}>Проверен</option></select>
-        <textarea id="an-${r.id}" placeholder="Ответ...">${esc(r.adminAnswer||'')}</textarea>
-        <button class="btn btn-primary btn-sm" onclick="apiAction({action:'save_gdz',id:'${r.id}',status:document.getElementById('st-${r.id}').value,adminAnswer:document.getElementById('an-${r.id}').value.trim()})">Сохранить</button>
-      </div>
-    </div>
-  `).join('') : '<div class="empty">Запросов нет</div>';
-
-  return `
-    <div class="card">
-      <h2 class="h2">🧠 Запросы ГДЗ</h2>
-      <div class="filters"><button onclick="state.gdzFilter='all';render()">Все</button><button onclick="state.gdzFilter='new';render()">Новые</button><button onclick="state.gdzFilter='answered';render()">Проверенные</button></div>
-      ${listHtml}
-    </div>`;
+  return `<div class="card"><h2 class="h2">💡 Идеи</h2><p class="sub">Это второй сайт. Здесь выводятся идеи.</p></div>`;
 }
 
 function viewAdmins() {
@@ -274,103 +138,28 @@ function viewAdmins() {
     <div class="card"><h2 class="h2">Администраторы</h2>${state.admins.map(u=>`<div class="user-row"><div class="avatar">${esc(u.name||u.login)[0]}</div><div style="flex:1"><b>${esc(u.name||u.login)}</b><div class="user-meta">${esc(u.login)}</div></div><button class="btn btn-danger btn-sm" onclick="apiAction({action:'del_admin',login:'${u.login}'})">Удалить</button></div>`).join('')}</div>`;
 }
 
-function viewParticipants() {
-  return `<div class="card"><h2 class="h2">👤 Участники</h2>${Object.keys(state.participants).sort().map(n=>`<div class="user-row"><div class="avatar">${n[0]}</div><div style="flex:1"><b>${esc(n)}</b><div class="user-meta">${state.participants[n].role==='creator'?'Создатель':'Ученик'}</div></div><button class="btn btn-ghost btn-sm" onclick="apiAction({action:'set_role',name:'${n}',role:'${state.participants[n].role==='creator'?'student':'creator'}'})">${state.participants[n].role==='creator'?'Забрать':'Выдать создателя'}</button></div>`).join('')}</div>`;
-}
-
-function viewBroadcasts() {
-  return `
-    <div class="card">
-      <h2 class="h2">📢 Рассылка</h2>
-      <form onsubmit="event.preventDefault();apiAction({action:'add_broadcast',text:document.getElementById('bt').value});document.getElementById('bt').value=''">
-        <textarea id="bt" placeholder="Текст..." required style="min-height:80px;"></textarea>
-        <button class="btn btn-primary" style="margin-top:10px;">Отправить</button>
-      </form>
-    </div>
-    <div class="card"><h2 class="h2">История</h2>${state.broadcasts.map(b=>`<div class="idea"><div class="idea-text" style="padding:0">${esc(b.text)}</div><div class="idea-meta" style="padding:0">${fmtDate(b.createdAt)}</div><button class="btn btn-danger btn-sm" style="margin-top:10px;" onclick="apiAction({action:'del_broadcast',id:'${b.id}'})">Удалить</button></div>`).join('')}</div>`;
-}
-
-function viewLogs() {
-  return `<div class="card"><h2 class="h2">📜 Логи</h2>${state.adminLogs.map(l=>`<div class="log-row"><div><b>${esc(l.admin)}</b> — ${esc(l.action)}</div><div style="font-size:12px;color:#6b7280;">${fmtDate(l.time)}</div></div>`).join('')}</div>`;
-}
-
 function viewAccess() {
   const s = state.settings;
   const sw = (id, t, d, c) => `<label class="switch-row"><div style="flex:1"><b>${t}</b><div style="font-size:12.5px;color:#6b7280;">${d}</div></div><span class="switch"><input type="checkbox" id="${id}" ${c?'checked':''}><span class="sl"></span></span></label>`;
   
   const isRoot = state.me.login === 'Maksim';
-  let adminPermsHtml = '';
-  
-  if (isRoot) {
-    const otherAdmins = state.admins.filter(a => a.login !== 'Maksim');
-    let listHtml = '';
-    if (otherAdmins.length === 0) {
-      listHtml = '<p style="font-size:13px;color:#6b7280;">Пока нет других администраторов.</p>';
-    } else {
-      listHtml = otherAdmins.map(a => {
-        const p = a.perms || DEFAULT_PERMS;
-        return `<div style="background:#f8fafc;border:1px solid #e5e7f0;padding:15px;border-radius:12px;margin-bottom:10px;">
-          <div style="font-weight:800;margin-bottom:10px;font-size:14px;">${esc(a.name||a.login)} <span style="font-weight:600;color:#6b7280;">(${esc(a.login)})</span></div>
-          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:6px;">
-            <input type="checkbox" data-perm-user="${esc(a.login)}" data-perm="canGdz" ${p.canGdz?'checked':''} onchange="updatePerm(this)"> Доступ к ГДЗ
-          </label>
-          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin-bottom:6px;">
-            <input type="checkbox" data-perm-user="${esc(a.login)}" data-perm="canEditGdz" ${p.canEditGdz?'checked':''} onchange="updatePerm(this)"> Может менять ответы в ГДЗ
-          </label>
-          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;">
-            <input type="checkbox" data-perm-user="${esc(a.login)}" data-perm="canUsers" ${p.canUsers?'checked':''} onchange="updatePerm(this)"> Управление админами
-          </label>
-        </div>`;
-      }).join('');
-    }
-    adminPermsHtml = `
-      <div class="card" style="margin-top:20px;">
-        <h2 class="h2">🛡️ Права других администраторов</h2>
-        <p class="sub">Укажи, что разрешено конкретному администратору.</p>
-        ${listHtml}
-      </div>`;
-  }
   
   return `
     <div class="card">
-      <h2 class="h2">🔐 Доступ для учеников</h2>
-      <form onsubmit="event.preventDefault();apiAction({action:'save_settings',settings:{ideasEnabled:document.getElementById('s1').checked,gdzEnabled:document.getElementById('s2').checked,photoEnabled:document.getElementById('s3').checked,showIdeasList:document.getElementById('s4').checked,requireName:document.getElementById('s5').checked,maintenanceMode:document.getElementById('sm').checked,maintenanceText:document.getElementById('smt').value,maxText:document.getElementById('smax').value,botTitle:document.getElementById('sbt').value,notice:document.getElementById('sn').value}})">
-        ${sw('s1','Идеи','Ученики могут писать',s.ideasEnabled!==false)}
-        ${sw('s2','Нейро-ГДЗ','Ученики могут спрашивать',s.gdzEnabled!==false)}
-        ${sw('s3','Фото','Разрешить фото',s.photoEnabled!==false)}
-        ${sw('s4','Лента идей','Показывать ленту',s.showIdeasList!==false)}
-        ${sw('s5','Имя','Требовать имя',s.requireName!==false)}
-        <div style="border:1px dashed #fca5a5;padding:15px;border-radius:14px;margin-top:20px;">
-          <div style="color:#b91c1c;font-weight:800;margin-bottom:10px;">🛠 Техработы</div>
-          ${sw('sm','Закрыть сайт','Заглушка',s.maintenanceMode===true)}
-          <input id="smt" placeholder="Текст заглушки" value="${esc(s.maintenanceText||'')}" style="margin-top:10px;">
+      <h2 class="h2">🔐 Настройки второго сайта</h2>
+      <form onsubmit="event.preventDefault();apiAction({action:'save_settings',settings:{redirectAdmins:document.getElementById('s-redirect').checked}})">
+        
+        <div class="switch-row" style="border-color: #fca5a5; background: #fff7ed;">
+          <div style="flex:1"><b style="color:#b91c1c">Выгнать всех админов</b><div style="font-size:12.5px;color:#9a3412;">Если включить, все админы (кроме Maksim) будут моментально перекинуты на основной сайт.</div></div>
+          <span class="switch"><input type="checkbox" id="s-redirect" ${s.redirectAdmins?'checked':''}><span class="sl"></span></span>
         </div>
-        <div class="grid-2" style="margin-top:20px;">
-          <div><label>Лимит текста</label><input id="smax" type="number" value="${s.maxText||1200}"></div>
-          <div><label>Имя бота</label><input id="sbt" value="${esc(s.botTitle||'Нейро-ГДЗ')}"></div>
-        </div>
-        <div style="margin-top:15px;"><label>Объявление</label><textarea id="sn">${esc(s.notice||'')}</textarea></div>
+
         <button class="btn btn-primary" style="margin-top:20px;">Сохранить</button>
       </form>
-    </div>
-    ${adminPermsHtml}`;
+    </div>`;
 }
 
-async function updatePerm(el) {
-  const login = el.dataset.permUser;
-  const perm = el.dataset.perm;
-  const value = el.checked;
-  await fetch('/api/admin/action', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ action: 'update_perms', login, perm, value })
-  });
-  toast('Права обновлены');
-  fetchData();
-}
-
-async function apiAction(data) { await fetch('/api/admin/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); fetchData(); }
-function showImg(src) { const m=document.createElement('div'); m.className='modal'; m.innerHTML=`<img src="${src}">`; m.onclick=()=>m.remove(); document.body.appendChild(m); }
+async function apiAction(data) { await fetch('/api/admin/action',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); fetchData(); toast('Сохранено'); }
 fetchData();
 </script>
 </body>
