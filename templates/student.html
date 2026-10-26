@@ -4,100 +4,67 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Школьный ящик идей</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📬</text></svg>">
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   :root{--primary:#4f46e5;--text:#1e1b2e;--muted:#6b7280;--border:#e5e7f0;--gdz:#8b5cf6;--shadow:0 12px 34px rgba(79,70,229,.10)}
   body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f6fb;color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
-  .bg-blob{position:fixed;border-radius:50%;filter:blur(90px);opacity:.55;z-index:-1}
-  .blob1{width:420px;height:420px;background:#c7d2fe;top:-140px;left:-130px}
-  .blob2{width:380px;height:380px;background:#ddd6fe;bottom:-150px;right:-110px}
   .wrap{width:100%;max-width:680px;margin:0 auto;padding:0 20px 30px}
   header{padding:24px 0 6px}
   .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:16px}
   .logo{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;font-size:19px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff}
-  
-  .banner{background:#fffbeb;border:1px solid #fde68a;color:#92400e;padding:12px 16px;border-radius:14px;font-size:13.5px;font-weight:600;line-height:1.5;margin-top:15px;display:none}
-
-  .segmented{position:relative;display:flex;background:#eef0f8;border-radius:14px;padding:5px;margin-top:16px;transition:.3s}
-  .segmented.single button{width:100%;flex:none}
+  .segmented{position:relative;display:flex;background:#eef0f8;border-radius:14px;padding:5px;margin-top:16px}
   .segmented button{flex:1;position:relative;z-index:2;border:none;background:transparent;padding:10px;border-radius:10px;font-weight:800;font-size:14px;color:var(--muted);cursor:pointer;transition:.22s;font-family:inherit}
   .segmented button.active{color:#fff}
-  .seg-indicator{position:absolute;z-index:1;top:5px;left:5px;width:calc(50% - 5px);height:calc(100% - 10px);border-radius:10px;background:linear-gradient(135deg,#6366f1,#4f46e5);transition:.3s;box-shadow:0 4px 12px rgba(79,70,229,.3)}
-  .segmented.gdz .seg-indicator{transform:translateX(100%);background:linear-gradient(135deg,var(--gdz),#7c3aed);box-shadow:0 4px 12px rgba(139,92,246,.3)}
-  
-  .card{background:#fff;border:1px solid var(--border);border-radius:24px;padding:28px;box-shadow:var(--shadow);margin-bottom:20px;margin-top:20px;animation:pop .3s ease}
-  h1{font-size:24px;margin-bottom:9px;letter-spacing:-.03em}
-  .lead{color:var(--muted);font-size:14.5px;margin-bottom:22px;line-height:1.5}
-  
-  .field{margin-bottom:16px}
-  label{display:block;font-size:12.5px;font-weight:800;color:var(--muted);margin-bottom:7px}
-  input,textarea{width:100%;padding:13px 15px;border:1.5px solid var(--border);border-radius:13px;font-size:14.5px;outline:none;transition:.2s;font-family:inherit;background:#fff}
-  input:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(79,70,229,.13)}
+  .seg-indicator{position:absolute;z-index:1;top:5px;left:5px;width:calc(50% - 5px);height:calc(100% - 10px);border-radius:10px;background:linear-gradient(135deg,#6366f1,#4f46e5);transition:.3s}
+  .segmented.gdz .seg-indicator{transform:translateX(100%);background:linear-gradient(135deg,var(--gdz),#7c3aed)}
+  .card{background:#fff;border:1px solid var(--border);border-radius:24px;padding:28px;box-shadow:var(--shadow);margin-bottom:20px;margin-top:20px;}
+  h1{font-size:24px;margin-bottom:9px} .lead{color:var(--muted);font-size:14.5px;margin-bottom:22px}
+  .field{margin-bottom:16px} label{display:block;font-size:12.5px;font-weight:800;color:var(--muted);margin-bottom:7px}
+  input,textarea{width:100%;padding:13px 15px;border:1.5px solid var(--border);border-radius:13px;font-size:14.5px;outline:none;font-family:inherit;background:#fff}
   textarea{resize:vertical;min-height:128px;line-height:1.5}
-  
-  .btn{border:none;border-radius:13px;padding:14px 20px;font-size:15px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;width:100%;font-family:inherit;transition:.2s}
-  .btn:hover{transform:translateY(-1px);box-shadow:0 6px 15px rgba(79,70,229,.3)}
-  .btn:active{transform:translateY(0)}
-  
+  .btn{border:none;border-radius:13px;padding:14px 20px;font-size:15px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;width:100%;font-family:inherit}
   .sub-tabs{display:flex;gap:8px;margin-bottom:16px;background:#f4f6fb;padding:5px;border-radius:12px}
-  .sub-tabs button{flex:1;border:none;background:transparent;padding:8px 12px;border-radius:8px;font-size:13.5px;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit;transition:.2s}
+  .sub-tabs button{flex:1;border:none;background:transparent;padding:8px 12px;border-radius:8px;font-size:13.5px;font-weight:700;color:var(--muted);cursor:pointer;font-family:inherit;}
   .sub-tabs button.active{background:#fff;color:var(--primary);box-shadow:0 2px 8px rgba(0,0,0,.05)}
-
-  .idea{background:#fbfbff;border:1px solid var(--border);border-radius:16px;padding:17px 18px;margin-bottom:12px;animation:fadeIn .3s ease}
+  .idea{background:#fbfbff;border:1px solid var(--border);border-radius:16px;padding:17px 18px;margin-bottom:12px}
   .idea-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px}
   .idea-title{font-weight:800;font-size:15px;line-height:1.3}
   .idea-text{color:#3f3d56;font-size:14px;white-space:pre-wrap;line-height:1.5}
+  .idea-img{max-width:100%;max-height:250px;border-radius:12px;margin-top:10px;border:1px solid var(--border);display:block;cursor:zoom-in}
   .idea-meta{font-size:12px;color:var(--muted);margin-top:12px;font-weight:600;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-  
   .badge{font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap}
-  .badge.pending{background:#fef3c7;color:#b45309}
-  .badge.approved{background:#d1fae5;color:#047857}
-  .badge.rejected{background:#fee2e2;color:#b91c1c}
-  .badge.creator{background:#fef08a;color:#854d0e;border:1px solid #fde047}
-  
-  .comment{background:#f8f9ff;border-left:3px solid var(--primary);padding:11px 15px;border-radius:9px;font-size:13px;margin-top:13px;color:#3f3d56;line-height:1.55;white-space:pre-wrap}
-  .comment b{color:var(--primary)}
-  
-  .chat{display:flex;flex-direction:column;gap:12px;max-height:440px;overflow-y:auto;padding-bottom:12px;scroll-behavior:smooth}
-  .msg{display:flex;gap:10px;max-width:93%;animation:fadeIn .3s ease}
-  .msg.me{align-self:flex-end;flex-direction:row-reverse}
+  .badge.pending{background:#fef3c7;color:#b45309} .badge.approved{background:#d1fae5;color:#047857} .badge.rejected{background:#fee2e2;color:#b91c1c}
+  .badge.creator{background:#fef08a;color:#854d0e;}
+  .comment{background:#f8f9ff;border-left:3px solid var(--primary);padding:11px 15px;border-radius:9px;font-size:13px;margin-top:13px;color:#3f3d56;white-space:pre-wrap}
+  .vote-bar{display:flex;gap:15px;margin-top:12px;align-items:center}
+  .vote-btn{border:none;background:#f1f5f9;color:#64748b;padding:6px 12px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;font-family:inherit;}
+  .vote-btn.active-like{background:#d1fae5;color:#047857} .vote-btn.active-dislike{background:#fee2e2;color:#b91c1c}
+  .chat{display:flex;flex-direction:column;gap:12px;max-height:440px;overflow-y:auto;padding-bottom:12px}
+  .msg{display:flex;gap:10px;max-width:93%} .msg.me{align-self:flex-end;flex-direction:row-reverse}
   .msg .ava{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
-  .msg.bot .ava{background:var(--gdz);color:#fff}
-  .msg.me .ava{background:#818cf8;color:#fff}
+  .msg.bot .ava{background:var(--gdz);color:#fff} .msg.me .ava{background:#818cf8;color:#fff}
   .msg .bubble{padding:11px 15px;border-radius:16px;font-size:14px;white-space:pre-wrap;line-height:1.5;word-break:break-word}
-  .msg.me .bubble{background:#4f46e5;color:#fff;border-bottom-right-radius:4px}
-  .msg.bot .bubble{background:#f1f5f9;border:1px solid #e5e7f0;border-bottom-left-radius:4px}
-  .ans-note{font-size:11.5px;font-weight:800;margin-top:9px;color:#047857;display:flex;align-items:center;gap:4px}
-  
-  .typing{display:flex;gap:4px;padding:4px 0}
-  .typing i{width:6px;height:6px;border-radius:50%;background:#94a3b8;animation:bounce 1s infinite}
-  .typing i:nth-child(2){animation-delay:.15s}
-  .typing i:nth-child(3){animation-delay:.3s}
-  
-  .composer{display:flex;gap:8px;align-items:center;background:#f4f6fb;border:1.5px solid var(--border);border-radius:16px;padding:7px 8px;margin-top:14px;transition:.2s}
-  .composer:focus-within{border-color:var(--gdz);box-shadow:0 0 0 4px rgba(139,92,246,.13);background:#fff}
-  .composer input{flex:1;border:none;background:transparent;padding:9px;outline:none;box-shadow:none;font-size:14.5px}
-  .composer input:focus{box-shadow:none}
-  .composer button{width:44px;height:40px;border-radius:12px;border:none;background:var(--gdz);color:#fff;cursor:pointer;font-size:16px;transition:.2s}
-  .composer button:hover{background:#7c3aed}
-  
+  .msg.me .bubble{background:#4f46e5;color:#fff;border-bottom-right-radius:4px} .msg.bot .bubble{background:#f1f5f9;border:1px solid #e5e7f0;border-bottom-left-radius:4px}
+  .chat-img{max-width:100%;border-radius:11px;margin-top:9px;display:block;border:1px solid rgba(255,255,255,.35);cursor:zoom-in}
+  .ans-note{font-size:11.5px;font-weight:800;margin-top:9px;color:#047857;}
+  .composer{display:flex;gap:8px;align-items:center;background:#f4f6fb;border:1.5px solid var(--border);border-radius:16px;padding:7px 8px;margin-top:14px;}
+  .composer input[type="text"]{flex:1;border:none;background:transparent;padding:9px;outline:none;box-shadow:none;font-size:14.5px}
+  .composer .attach{width:40px;height:40px;border-radius:12px;border:none;background:#fff;color:var(--gdz);font-size:18px;cursor:pointer;flex:none;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+  .composer .send{width:44px;height:40px;border-radius:12px;border:none;background:var(--gdz);color:#fff;cursor:pointer;font-size:16px}
   .empty-state { text-align: center; padding: 30px 20px; color: var(--muted); font-size: 14px; background: #f8fafc; border-radius: 15px; border: 1px dashed var(--border); }
-  .locked-state { text-align: center; padding: 60px 20px; color: var(--muted); }
-  .locked-state .em { font-size: 50px; margin-bottom: 15px; }
   .hide{display:none !important}
-  
-  @keyframes pop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-  @keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
+  .preview{display:none;align-items:center;gap:10px;background:#f4f6fb;border:1px solid var(--border);border-radius:12px;padding:10px;margin-top:10px}
+  .preview img{width:40px;height:40px;object-fit:cover;border-radius:8px}
+  .modal{position:fixed;inset:0;background:rgba(15,23,42,.8);display:grid;place-items:center;z-index:999;padding:20px;cursor:zoom-out;}
 </style>
 </head>
 <body>
-<div class="bg-blob blob1"></div>
-<div class="bg-blob blob2"></div>
 <div class="wrap">
   <header>
     <div class="brand"><div class="logo">📬</div><div>Школьный ящик идей</div></div>
-    <div class="banner" id="notice-banner"></div>
+    <div id="notice-banner" style="display:none; background:#fffbeb; border:1px solid #fde68a; padding:12px; border-radius:14px; margin-top:15px; font-size:13.5px; font-weight:600;"></div>
+    <div id="broadcast-banner" style="display:none; background:#eef2ff; border:1px solid #c7d2fe; padding:12px; border-radius:14px; margin-top:15px; font-size:13.5px; font-weight:600; color:#3730a3"></div>
     
     <div class="segmented" id="seg">
       <span class="seg-indicator" id="seg-ind"></span>
@@ -106,274 +73,283 @@
     </div>
   </header>
   
-  <main>
-    <div id="locked-view" class="locked-state hide">
-      <div class="em">🔒</div>
-      <h2>Доступ временно закрыт</h2>
-      <p style="margin-top:10px">Администрация отключила все разделы. Загляни позже.</p>
-    </div>
-
-    <div class="card name-card" id="name-card" style="padding:16px 20px">
-      <div style="display:flex;gap:13px;align-items:center">
-        <div style="font-size:24px">👤</div>
-        <div style="flex:1">
-          <div style="font-size:13.5px;font-weight:800;margin-bottom:6px">Как тебя зовут? <span style="color:#aab0c4;font-weight:600" id="name-req">(обязательно)</span></div>
-          <input id="name-input" placeholder="Имя и фамилия" style="padding:10px 12px">
-        </div>
-        <button class="btn" style="width:auto;padding:10px 16px" id="name-save">ОК</button>
-      </div>
-    </div>
-
-    <section id="panel-ideas" class="hide">
-      <div class="card">
-        <h1>Предложи идею 💡</h1>
-        <p class="lead">Что можно улучшить в школе? Напиши, и администрация обязательно прочитает.</p>
-        <form id="idea-form">
-          <div class="field"><textarea id="idea-text" required placeholder="Например: хочется больше растений в коридорах, чтобы было уютнее..."></textarea></div>
-          <button class="btn" type="submit">Отправить идею</button>
-        </form>
-      </div>
-      
-      <div class="card" id="ideas-list-wrapper">
-        <h2 style="font-size:17px;margin-bottom:15px;letter-spacing:-.02em">💬 Идеи</h2>
-        
-        <div class="sub-tabs" id="ideas-subtabs">
-          <button id="btn-all-ideas" class="active" onclick="setIdeasFilter('all')">Все идеи</button>
-          <button id="btn-my-ideas" onclick="setIdeasFilter('my')">Мои идеи</button>
-        </div>
-
-        <div id="ideas-list"></div>
-      </div>
-    </section>
-
-    <section id="panel-gdz" class="hide">
-      <div class="card">
-        <div style="display:flex;gap:13px;align-items:center;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border)">
-          <div style="width:46px;height:46px;border-radius:14px;background:var(--gdz);color:#fff;display:grid;place-items:center;font-size:21px">🧠</div>
-          <div>
-            <div style="font-weight:800;font-size:16px" id="bot-title">Нейро-ГДЗ</div>
-            <div style="font-size:12.5px;color:var(--muted)">Решает задания по тексту · ответ проверяет учитель</div>
-          </div>
-        </div>
-        <div class="chat" id="chat"></div>
-        <div class="composer">
-          <input id="gdz-text" placeholder="Напиши задание сюда...">
-          <button id="gdz-send">➤</button>
-        </div>
-      </div>
-    </section>
+  <main id="app">
+    <div style="text-align:center;padding:60px;font-size:18px;font-weight:800;color:#4f46e5;">Загрузка...</div>
   </main>
 </div>
 <script>
-let currentTab = 'ideas', ideasFilter = 'all', myName = localStorage.getItem('name') || '', data = { ideas: [], gdz: [], settings: {}, participants: {} };
-let isBotTyping = false;
-const $ = s => document.querySelector(s);
-function esc(s) { return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function fmt(ts) { return new Date(ts).toLocaleString('ru-RU', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }); }
+window.onerror = function(msg) { document.getElementById('app').innerHTML = '<div style="color:red;padding:20px;font-size:18px;"><b>Ошибка:</b> '+msg+'</div>'; };
 
-function updateNameUI() {
-  if (myName) {
-    $('#name-card').classList.add('hide');
-  } else {
-    $('#name-card').classList.remove('hide');
-  }
-}
+let currentTab = 'ideas', ideasFilter = 'all', sortBy = 'new', myName = localStorage.getItem('name') || '', data = { ideas: [], gdz: [], settings: {}, participants: {}, broadcasts: [] };
+let pendingIdeaPhoto = '', pendingGdzPhoto = '';
+let uiBuilt = false;
 
-function applySettings(s) {
-  if (!s) return;
-  
-  if (s.notice) {
-    $('#notice-banner').textContent = s.notice;
-    $('#notice-banner').style.display = 'block';
-  } else {
-    $('#notice-banner').style.display = 'none';
-  }
-
-  $('#bot-title').textContent = s.botTitle || 'Нейро-ГДЗ';
-
-  if (s.requireName !== false) {
-    $('#name-req').textContent = '(обязательно)';
-    $('#name-req').style.color = '#ef4444';
-  } else {
-    $('#name-req').textContent = '(необязательно)';
-    $('#name-req').style.color = '#aab0c4';
-  }
-
-  const gdzOn = s.gdzEnabled !== false;
-  const ideasOn = s.ideasEnabled !== false;
-  
-  $('#tab-ideas').classList.toggle('hide', !ideasOn);
-  $('#tab-gdz').classList.toggle('hide', !gdzOn);
-
-  if (ideasOn && !gdzOn) {
-    $('#seg').classList.add('single'); $('#seg-ind').style.width = 'calc(100% - 10px)'; switchTab('ideas');
-  } else if (!ideasOn && gdzOn) {
-    $('#seg').classList.add('single'); $('#seg-ind').style.width = 'calc(100% - 10px)'; switchTab('gdz');
-  } else if (!ideasOn && !gdzOn) {
-    $('#seg').classList.add('hide'); $('.name-card').classList.add('hide');
-    $('#locked-view').classList.remove('hide'); $('#panel-ideas').classList.add('hide'); $('#panel-gdz').classList.add('hide');
-  } else {
-    $('#seg').classList.remove('single'); $('#seg-ind').style.width = 'calc(50% - 5px)'; switchTab(currentTab);
-  }
-
-  $('#ideas-list-wrapper').classList.toggle('hide', s.showIdeasList === false);
-
-  if (s.maxText) {
-    $('#idea-text').setAttribute('maxlength', s.maxText);
-    $('#gdz-text').setAttribute('maxlength', s.maxText);
-  }
-}
-
-function switchTab(tab) {
-  currentTab = tab;
-  if(tab === 'ideas') {
-    $('#seg').classList.remove('gdz');
-    $('#tab-ideas').classList.add('active');
-    $('#tab-gdz').classList.remove('active');
-    $('#panel-ideas').classList.remove('hide');
-    $('#panel-gdz').classList.add('hide');
-  } else {
-    $('#seg').classList.add('gdz');
-    $('#tab-gdz').classList.add('active');
-    $('#tab-ideas').classList.remove('active');
-    $('#panel-gdz').classList.remove('hide');
-    $('#panel-ideas').classList.add('hide');
-    setTimeout(() => { $('#chat').scrollTop = $('#chat').scrollHeight; }, 50);
-  }
-}
-
-function setIdeasFilter(filter) {
-  ideasFilter = filter;
-  $('#btn-all-ideas').classList.toggle('active', filter === 'all');
-  $('#btn-my-ideas').classList.toggle('active', filter === 'my');
-  renderIdeas();
-}
-
-function renderIdeas() {
-  let list = data.ideas || [];
-  
-  if (ideasFilter === 'my') {
-    if (!myName) {
-      $('#ideas-list').innerHTML = '<div class="empty-state">Пожалуйста, укажи свое имя наверху, чтобы мы могли показать твои идеи и ответы на них.</div>';
-      return;
-    }
-    list = list.filter(i => i.author === myName);
-  }
-
-  if (list.length === 0) {
-    $('#ideas-list').innerHTML = `<div class="empty-state">${ideasFilter === 'my' ? 'Ты пока не предлагал идей.' : 'Пока идей нет. Стань первым!'}</div>`;
-    return;
-  }
-
-  $('#ideas-list').innerHTML = list.map(i => {
-    let badge = '<span class="badge pending">На рассмотрении</span>';
-    if (i.status === 'approved') badge = '<span class="badge approved">Принято</span>';
-    if (i.status === 'rejected') badge = '<span class="badge rejected">Отклонено</span>';
-
-    let commentHtml = '';
-    if (i.comment) {
-      commentHtml = `<div class="comment"><b>Ответ администрации:</b><br>${esc(i.comment)}</div>`;
-    }
-
-    const isCreator = data.participants && data.participants[i.author]?.role === 'creator';
-    const creatorBadge = isCreator ? '<span class="badge creator">Создатель</span>' : '';
-
-    return `
-    <div class="idea">
-      <div class="idea-head">
-        <div class="idea-title">${esc(i.text.split('\\n')[0].slice(0, 80))}</div>
-        ${badge}
-      </div>
-      <div class="idea-text">${esc(i.text)}</div>
-      <div class="idea-meta">👤 ${esc(i.author)} ${creatorBadge} · 🕒 ${fmt(i.createdAt)}</div>
-      ${commentHtml}
-    </div>
-    `;
-  }).join('');
-}
-
-function renderChat() {
-  let html = `<div class="msg bot"><div class="ava">🧠</div><div class="bubble">Привет! Я ${esc(data.settings?.botTitle || 'Нейро-ГДЗ')}. Пришли мне задание текстом, и я постараюсь его решить.</div></div>`;
-  
-  if (data.gdz && data.gdz.length > 0) {
-    data.gdz.forEach(r => {
-      html += `<div class="msg me"><div class="ava">${esc((r.author || 'Я').charAt(0).toUpperCase())}</div><div class="bubble">${esc(r.question)}</div></div>`;
-      const checked = r.adminAnswer && r.adminAnswer.trim();
-      const ans = checked ? r.adminAnswer : (r.botAnswer || 'Думаю...');
-      const note = checked ? '<div class="ans-note">✓ Проверено учителем</div>' : '';
-      html += `<div class="msg bot"><div class="ava">🧠</div><div class="bubble">${esc(ans)}${note}</div></div>`;
-    });
-  }
-
-  if (isBotTyping) {
-    html += `<div class="msg bot"><div class="ava">🧠</div><div class="bubble"><div class="typing"><i></i><i></i><i></i></div></div></div>`;
-  }
-
-  $('#chat').innerHTML = html;
-  $('#chat').scrollTop = $('#chat').scrollHeight;
-}
+const esc = s => String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = ts => new Date(ts).toLocaleString('ru-RU', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
 
 async function fetchData() {
   try {
     const res = await fetch('/api/state');
+    if(!res.ok) throw new Error('Ошибка сервера: ' + res.status);
     data = await res.json();
-    if (data.settings) applySettings(data.settings);
-    renderIdeas();
-    renderChat();
-  } catch(e) { console.error('Ошибка загрузки данных', e); }
+    
+    if (!uiBuilt) {
+      buildUI();
+      uiBuilt = true;
+    }
+    
+    updateDynamicData();
+    
+    const err = document.getElementById('conn-error');
+    if (err) err.remove();
+  } catch(e) {
+    if (!document.getElementById('conn-error')) {
+      const err = document.createElement('div');
+      err.id = 'conn-error';
+      err.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#ef4444;color:white;text-align:center;padding:10px;z-index:9999;font-weight:bold;font-size:14px;';
+      err.textContent = '⚠️ Нет связи с сервером. Пожалуйста, подождите...';
+      document.body.appendChild(err);
+    }
+  }
 }
 
-$('#name-save').onclick = () => {
-  const v = $('#name-input').value.trim();
-  if(v.length < 2 && data.settings?.requireName !== false) return alert('Администрация требует указать имя!');
-  if(v.length > 0) { myName = v; localStorage.setItem('name', v); }
-  updateNameUI();
+function buildUI() {
+  const s = data.settings || {};
+  
+  if (s.notice) { document.getElementById('notice-banner').textContent = s.notice; document.getElementById('notice-banner').style.display = 'block'; }
+  if (data.broadcasts && data.broadcasts.length > 0) { document.getElementById('broadcast-banner').innerHTML = '📢 <b>Объявление:</b> ' + esc(data.broadcasts[0].text); document.getElementById('broadcast-banner').style.display = 'block'; }
+  
+  if (s.maintenanceMode) {
+    document.getElementById('app').innerHTML = `<div class="card" style="text-align:center;padding:60px 20px;"><div style="font-size:50px;margin-bottom:15px;">🛠</div><h2>Технические работы</h2><p style="margin-top:10px;color:#6b7280;">${esc(s.maintenanceText)}</p></div>`;
+    document.getElementById('seg').style.display = 'none';
+    return;
+  }
+
+  let html = '';
+  
+  if (!myName) {
+    html += `<div class="card" style="padding:16px 20px;"><div style="display:flex;gap:13px;align-items:center;"><div style="font-size:24px;">👤</div><div style="flex:1;"><div style="font-size:13.5px;font-weight:800;margin-bottom:6px;">Как тебя зовут?</div><input id="name-input" placeholder="Имя и фамилия" style="padding:10px 12px;"></div><button class="btn" style="width:auto;padding:10px 16px;" onclick="saveName()">ОК</button></div></div>`;
+  }
+
+  if (s.ideasEnabled !== false) {
+    html += `
+      <div id="panel-ideas" class="${currentTab === 'ideas' ? '' : 'hide'}">
+        <div class="card">
+          <h1>Предложи идею 💡</h1>
+          <form id="idea-form" onsubmit="sendIdea(event)">
+            <textarea id="idea-text" required placeholder="Например: хочется больше растений..."></textarea>
+            <div style="margin:15px 0;">
+              <button type="button" class="btn" style="background:#f4f6fb;color:#4f46e5;border:1px solid #e5e7f0;padding:10px;" onclick="document.getElementById('idea-photo-input').click()">📷 Прикрепить фото</button>
+              <input type="file" id="idea-photo-input" accept="image/*" hidden onchange="handlePhoto(this, 'idea')">
+              <div class="preview" id="idea-preview"><img id="idea-preview-img"><span style="flex:1;font-size:13px;font-weight:600;">Фото прикреплено</span><button type="button" onclick="clearPhoto('idea')" style="background:#fee2e2;color:#b91c1c;border:none;padding:5px 10px;border-radius:6px;cursor:pointer;">Удалить</button></div>
+            </div>
+            <button class="btn" type="submit" id="idea-submit-btn">Отправить идею</button>
+          </form>
+        </div>
+        <div class="card">
+          <h2 style="font-size:17px;margin-bottom:15px;">💬 Идеи</h2>
+          <div class="sub-tabs">
+            <button onclick="ideasFilter='all';renderIdeas()" id="btn-filter-all" class="${ideasFilter==='all'?'active':''}">Все идеи</button>
+            <button onclick="ideasFilter='my';renderIdeas()" id="btn-filter-my" class="${ideasFilter==='my'?'active':''}">Мои идеи</button>
+          </div>
+          <div style="display:flex;gap:8px;margin-bottom:15px;align-items:center;font-size:13px;font-weight:700;color:#6b7280;">
+            Сортировка: 
+            <button onclick="sortBy='new';renderIdeas()" id="btn-sort-new" style="border:none;background:none;cursor:pointer;font-weight:700;color:${sortBy==='new'?'#4f46e5':'#6b7280'}">Новые</button> 
+            <button onclick="sortBy='popular';renderIdeas()" id="btn-sort-pop" style="border:none;background:none;cursor:pointer;font-weight:700;color:${sortBy==='popular'?'#4f46e5':'#6b7280'}">Популярные</button>
+          </div>
+          <div id="ideas-list"></div>
+        </div>
+      </div>`;
+  }
+
+  if (s.gdzEnabled !== false) {
+    html += `
+      <div id="panel-gdz" class="${currentTab === 'gdz' ? '' : 'hide'}">
+        <div class="card">
+          <div style="display:flex;gap:13px;align-items:center;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid #e5e7f0;">
+            <div style="width:46px;height:46px;border-radius:14px;background:#8b5cf6;color:#fff;display:grid;place-items:center;font-size:21px;">🧠</div>
+            <div><div style="font-weight:800;font-size:16px;">${esc(s.botTitle || 'Нейро-ГДЗ')}</div><div style="font-size:12.5px;color:#6b7280;">Решает задания · ответ проверяет учитель</div></div>
+          </div>
+          <div class="chat" id="chat"></div>
+          <div class="preview" id="gdz-preview" style="margin-top:10px;"><img id="gdz-preview-img"><span style="flex:1;font-size:13px;font-weight:600;">Фото прикреплено</span><button type="button" onclick="clearPhoto('gdz')" style="background:#fee2e2;color:#b91c1c;border:none;padding:5px 10px;border-radius:6px;cursor:pointer;">Удалить</button></div>
+          <div class="composer">
+            <button class="attach" onclick="document.getElementById('gdz-photo-input').click()">📷</button>
+            <input type="file" id="gdz-photo-input" accept="image/*" hidden onchange="handlePhoto(this, 'gdz')">
+            <input type="text" id="gdz-text" placeholder="Напиши задание сюда...">
+            <button class="send" onclick="sendGdz()">➤</button>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  if (s.ideasEnabled === false && s.gdzEnabled === false) {
+    html = `<div class="card" style="text-align:center;padding:50px;"><h2>🔒 Доступ закрыт</h2><p>Администрация отключила разделы.</p></div>`;
+  }
+
+  document.getElementById('app').innerHTML = html;
+}
+
+function updateDynamicData() {
+  if (!uiBuilt) return;
   renderIdeas();
-};
-
-$('#tab-ideas').onclick = () => switchTab('ideas');
-$('#tab-gdz').onclick = () => switchTab('gdz');
-
-$('#idea-form').onsubmit = async (e) => {
-  e.preventDefault();
-  const text = $('#idea-text').value.trim();
-  if(!text) return;
-  if(data.settings?.requireName !== false && !myName) return alert('Сначала укажи имя!');
-  
-  const btn = e.target.querySelector('button');
-  btn.disabled = true; btn.textContent = 'Отправка...';
-  
-  await fetch('/api/idea', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ text, author: myName || 'Аноним' }) });
-  
-  $('#idea-text').value = '';
-  btn.disabled = false; btn.textContent = 'Отправить идею';
-  
-  setIdeasFilter('my');
-  fetchData();
-};
-
-$('#gdz-send').onclick = async () => {
-  const text = $('#gdz-text').value.trim();
-  if(!text) return;
-  if(data.settings?.requireName !== false && !myName) return alert('Сначала укажи имя!');
-  
-  $('#gdz-text').value = '';
-  isBotTyping = true;
   renderChat();
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  const seg = document.getElementById('seg');
   
-  await fetch('/api/gdz', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ question: text, author: myName || 'Аноним' }) });
+  if (tab === 'ideas') {
+    document.getElementById('tab-ideas').classList.add('active');
+    document.getElementById('tab-gdz').classList.remove('active');
+    seg.classList.remove('gdz');
+    document.getElementById('seg-ind').style.transform = 'translateX(0)';
+    if(document.getElementById('panel-ideas')) document.getElementById('panel-ideas').classList.remove('hide');
+    if(document.getElementById('panel-gdz')) document.getElementById('panel-gdz').classList.add('hide');
+  } else {
+    document.getElementById('tab-gdz').classList.add('active');
+    document.getElementById('tab-ideas').classList.remove('active');
+    seg.classList.add('gdz');
+    document.getElementById('seg-ind').style.transform = 'translateX(100%)';
+    if(document.getElementById('panel-gdz')) document.getElementById('panel-gdz').classList.remove('hide');
+    if(document.getElementById('panel-ideas')) document.getElementById('panel-ideas').classList.add('hide');
+    const chat = document.getElementById('chat');
+    if(chat) chat.scrollTop = chat.scrollHeight;
+  }
+}
+
+function saveName() {
+  const v = document.getElementById('name-input').value.trim();
+  if(v.length < 2) return alert('Слишком короткое имя');
+  myName = v; localStorage.setItem('name', v);
+  uiBuilt = false; fetchData();
+}
+
+function renderIdeas() {
+  const box = document.getElementById('ideas-list');
+  if(!box) return;
   
-  isBotTyping = false;
+  let list = data.ideas || [];
+  if(ideasFilter === 'my') {
+    if(!myName) { box.innerHTML = '<div class="empty-state">Сначала укажи имя.</div>'; return; }
+    list = list.filter(i => i.author === myName);
+  }
+  if(!list.length) { box.innerHTML = '<div class="empty-state">Идей пока нет.</div>'; return; }
+
+  if(sortBy === 'new') list.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  else list.sort((a,b)=>(b.likes||[]).length - (a.likes||[]).length);
+
+  box.innerHTML = list.map(i => {
+    let badge = '<span class="badge pending">На рассмотрении</span>';
+    if(i.status === 'approved') badge = '<span class="badge approved">Принято</span>';
+    if(i.status === 'rejected') badge = '<span class="badge rejected">Отклонено</span>';
+    const hasLiked = myName && (i.likes||[]).includes(myName);
+    const hasDisliked = myName && (i.dislikes||[]).includes(myName);
+    
+    return `<div class="idea">
+      <div class="idea-head"><div class="idea-title">${esc(i.text.split('\n')[0].slice(0,80))}</div>${badge}</div>
+      <div class="idea-text">${esc(i.text)}</div>
+      ${i.image?`<img class="idea-img" src="${i.image}" onclick="showImg('${i.image}')">`:''}
+      <div class="idea-meta">👤 ${esc(i.author)} · 🕒 ${fmt(i.createdAt)}</div>
+      <div class="vote-bar">
+        <button class="vote-btn ${hasLiked?'active-like':''}" onclick="vote('${i.id}','like')">👍 <span>${(i.likes||[]).length}</span></button>
+        <button class="vote-btn ${hasDisliked?'active-dislike':''}" onclick="vote('${i.id}','dislike')">👎 <span>${(i.dislikes||[]).length}</span></button>
+      </div>
+      ${i.comment?`<div class="comment"><b>Ответ:</b> ${esc(i.comment)}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function renderChat() {
+  const chat = document.getElementById('chat');
+  if(!chat) return;
+  const isBottom = chat.scrollHeight - chat.scrollTop - chat.clientHeight < 60;
+  
+  let html = `<div class="msg bot"><div class="ava">🧠</div><div class="bubble">Привет! Пришли задание текстом или фото.</div></div>`;
+  if(data.gdz) {
+    data.gdz.forEach(r => {
+      html += `<div class="msg me"><div class="ava">${esc((r.author||'Я')[0])}</div><div class="bubble">${esc(r.question)}${r.image?`<img class="chat-img" src="${r.image}" onclick="showImg('${r.image}')">`:''}</div></div>`;
+      if(r.botAnswer === 'Думаю...') html += `<div class="msg bot"><div class="ava">🧠</div><div class="bubble">Думаю...</div></div>`;
+      else {
+        const checked = r.adminAnswer && r.adminAnswer.trim();
+        const ans = checked ? r.adminAnswer : r.botAnswer;
+        html += `<div class="msg bot"><div class="ava">🧠</div><div class="bubble">${esc(ans)}${checked?'<div class="ans-note">✓ Проверено учителем</div>':''}</div></div>`;
+      }
+    });
+  }
+  chat.innerHTML = html;
+  if(isBottom) chat.scrollTop = chat.scrollHeight;
+}
+
+async function sendIdea(e) {
+  if (e) e.preventDefault();
+  const text = document.getElementById('idea-text').value.trim();
+  if(!text || (data.settings.requireName && !myName)) return alert('Заполни текст и имя!');
+  
+  const btn = document.getElementById('idea-submit-btn'); 
+  if (btn) { btn.disabled = true; btn.textContent = 'Отправка...'; }
+  
+  await fetch('/api/idea', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,author:myName,image:pendingIdeaPhoto})});
+  document.getElementById('idea-text').value=''; clearPhoto('idea'); 
+  if (btn) { btn.disabled = false; btn.textContent = 'Отправить идею'; }
+  
+  ideasFilter='my'; 
+  document.getElementById('btn-filter-all').classList.remove('active');
+  document.getElementById('btn-filter-my').classList.add('active');
   fetchData();
-};
+}
 
-$('#gdz-text').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') $('#gdz-send').click();
-});
+async function sendGdz() {
+  const text = document.getElementById('gdz-text').value.trim();
+  if((!text && !pendingGdzPhoto) || (data.settings.requireName && !myName)) return alert('Заполни задание и имя!');
+  
+  const qText = text || 'Задание по фото'; 
+  const img = pendingGdzPhoto;
+  
+  document.getElementById('gdz-text').value=''; 
+  clearPhoto('gdz');
+  
+  const chat = document.getElementById('chat'); 
+  if(chat) chat.scrollTop = chat.scrollHeight;
+  
+  await fetch('/api/gdz', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:qText,author:myName,image:img})});
+  fetchData();
+}
 
-updateNameUI();
+function handlePhoto(input, type) {
+  const file = input.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      let w=img.width, h=img.height; const scale=Math.min(1,800/w);
+      const c=document.createElement('canvas'); c.width=w*scale; c.height=h*scale;
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      const dataUrl = c.toDataURL('image/jpeg',0.7);
+      if(type==='idea'){ pendingIdeaPhoto=dataUrl; document.getElementById('idea-preview-img').src=dataUrl; document.getElementById('idea-preview').style.display='flex'; }
+      else { pendingGdzPhoto=dataUrl; document.getElementById('gdz-preview-img').src=dataUrl; document.getElementById('gdz-preview').style.display='flex'; }
+    }; img.src = e.target.result;
+  }; reader.readAsDataURL(file);
+}
+
+function clearPhoto(type) {
+  if(type==='idea'){ pendingIdeaPhoto=''; document.getElementById('idea-preview').style.display='none'; document.getElementById('idea-photo-input').value=''; }
+  else { pendingGdzPhoto=''; document.getElementById('gdz-preview').style.display='none'; document.getElementById('gdz-photo-input').value=''; }
+}
+
+async function vote(id, type) {
+  if(!myName) return alert('Укажи имя');
+  await fetch('/api/idea/vote',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,author:myName,type})});
+  fetchData();
+}
+
+function showImg(src) { const m=document.createElement('div'); m.className='modal'; m.innerHTML=`<img src="${src}">`; m.onclick=()=>m.remove(); document.body.appendChild(m); }
+
+document.getElementById('tab-ideas').onclick = () => switchTab('ideas');
+document.getElementById('tab-gdz').onclick = () => switchTab('gdz');
+
 fetchData();
-setInterval(fetchData, 5000);
+setInterval(fetchData, 3000);
 </script>
 </body>
 </html>
